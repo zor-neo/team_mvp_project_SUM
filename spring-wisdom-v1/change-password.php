@@ -4,6 +4,7 @@ require_login();
 $user = current_user();
 
 if (is_post()) {
+    require_csrf();
     $current = $_POST['current_password'] ?? '';
     $new = $_POST['new_password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
@@ -33,6 +34,7 @@ require __DIR__ . '/includes/header.php';
                 <h1 class="h3 fw-bold mb-3">Change Password</h1>
                 <p class="sw-muted">Use a strong password and confirm it before saving.</p>
                 <form method="post" class="needs-validation" novalidate>
+                    <?= csrf_field() ?>
                     <div class="mb-3"><label class="form-label">Current Password</label><input class="form-control" type="password" name="current_password" required></div>
                     <div class="mb-3"><label class="form-label">New Password</label><input class="form-control" type="password" name="new_password" minlength="8" required><div class="form-text">Minimum 8 characters with uppercase, lowercase, and a number.</div></div>
                     <div class="mb-4"><label class="form-label">Confirm New Password</label><input class="form-control" type="password" name="confirm_password" minlength="8" required></div>
@@ -43,4 +45,3 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
-

@@ -4,6 +4,7 @@ require_login();
 $user = current_user();
 
 if (is_post()) {
+    require_csrf();
     $reason = trim($_POST['reason_text'] ?? '');
     if ($user['role'] !== 'user') {
         flash('Your account already has elevated access.', 'warning');
@@ -29,6 +30,7 @@ require __DIR__ . '/includes/header.php';
                 <p class="sw-muted">Author status permits upload, modification, and deletion of your learning contents after admin approval.</p>
                 <?php if ($user['role'] === 'user'): ?>
                     <form method="post" class="needs-validation" novalidate>
+                        <?= csrf_field() ?>
                         <label class="form-label">Reason for author access</label>
                         <textarea class="form-control" name="reason_text" rows="6" required placeholder="Describe what type of learning resources you want to contribute."></textarea>
                         <button class="btn btn-sw-primary mt-3">Submit Request</button>
@@ -55,4 +57,3 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
-

@@ -2,8 +2,14 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 if (is_post()) {
-    review_author_request((int) $_POST['request_id'], $_POST['status'], (int) current_user()['id']);
-    flash('Author request reviewed.');
+    require_csrf();
+    $status = $_POST['status'] ?? '';
+    if (in_array($status, ['approved', 'rejected'], true)) {
+        review_author_request((int) $_POST['request_id'], $status, (int) current_user()['id']);
+        flash('Author request reviewed.');
+    } else {
+        flash('Invalid request action.', 'danger');
+    }
     redirect_to('admin-author-requests.php');
 }
 $requests = all_author_requests();
@@ -23,6 +29,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <p class="sw-muted"><?= e($request['reason_text']) ?></p>
                     <?php if ($request['status'] === 'pending'): ?>
                         <form method="post" class="d-flex gap-2">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="request_id" value="<?= e((string)$request['id']) ?>">
                             <button class="btn btn-sw-primary btn-sm" name="status" value="approved">Approve / Promote</button>
                             <button class="btn btn-outline-danger btn-sm" name="status" value="rejected">Reject</button>

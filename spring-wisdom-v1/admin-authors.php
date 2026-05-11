@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 if (is_post()) {
+    require_csrf();
     set_user_role((int) $_POST['user_id'], 'user');
     flash('Author demoted to normal user.', 'warning');
     redirect_to('admin-authors.php');
@@ -23,7 +24,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <h2 class="h5"><?= e($author['name']) ?></h2>
                     <p class="sw-muted"><?= e($author['email']) ?></p>
                     <p><span class="badge sw-badge"><?= $count ?> contents</span></p>
-                    <form method="post"><input type="hidden" name="user_id" value="<?= e((string)$author['id']) ?>"><button class="btn btn-outline-danger btn-sm">Demote Author</button></form>
+                    <form method="post"><?= csrf_field() ?><input type="hidden" name="user_id" value="<?= e((string)$author['id']) ?>"><button class="btn btn-outline-danger btn-sm">Demote Author</button></form>
                 </div>
             </div>
         <?php endforeach; ?>

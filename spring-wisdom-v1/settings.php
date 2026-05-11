@@ -4,6 +4,7 @@ require_login();
 $user = current_user();
 
 if (is_post()) {
+    require_csrf();
     $theme = in_array($_POST['settings_theme'] ?? 'light', ['light', 'comfortable', 'compact'], true) ? $_POST['settings_theme'] : 'light';
     $email = isset($_POST['email_notifications']);
     update_user_settings((int) $user['id'], $theme, $email);
@@ -23,6 +24,7 @@ require __DIR__ . '/includes/header.php';
                 <h1 class="h3 fw-bold mb-3">Settings</h1>
                 <p class="sw-muted">Configure simple account preferences for the V1 demo.</p>
                 <form method="post">
+                    <?= csrf_field() ?>
                     <div class="mb-3">
                         <label class="form-label">Reading Layout Preference</label>
                         <select class="form-select" name="settings_theme">

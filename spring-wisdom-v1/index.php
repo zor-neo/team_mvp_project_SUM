@@ -12,6 +12,7 @@ if (isset($_GET['demo'])) {
 }
 
 if (is_post()) {
+    require_csrf();
     $mode = $_POST['mode'] ?? 'login';
     if ($mode === 'register') {
         $created = create_user(trim($_POST['name'] ?? ''), trim($_POST['email'] ?? ''), $_POST['password'] ?? '');
@@ -61,6 +62,7 @@ require __DIR__ . '/includes/header.php';
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="loginTab">
                             <form method="post" class="needs-validation" novalidate>
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="mode" value="login">
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
@@ -83,6 +85,7 @@ require __DIR__ . '/includes/header.php';
                         </div>
                         <div class="tab-pane fade" id="registerTab">
                             <form method="post" class="needs-validation" novalidate>
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="mode" value="register">
                                 <div class="mb-3"><label class="form-label">Name</label><input class="form-control" name="name" required></div>
                                 <div class="mb-3"><label class="form-label">Email</label><input class="form-control" name="email" type="email" required></div>
@@ -98,4 +101,3 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
-

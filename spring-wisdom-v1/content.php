@@ -21,6 +21,7 @@ if ($from === 'archives') {
 }
 
 if (is_post() && ($_POST['action'] ?? '') === 'report') {
+    require_csrf();
     if ($isReportReview || effective_role() === 'admin') {
         flash('Admin review mode cannot submit reports.', 'warning');
         redirect_to('content.php?id=' . $content['id'] . '&review=report');
@@ -65,6 +66,7 @@ require __DIR__ . '/includes/header.php';
 <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" class="modal-content needs-validation" novalidate>
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="report">
             <div class="modal-header"><h5 class="modal-title">Report Content</h5><button class="btn-close" data-bs-dismiss="modal" type="button"></button></div>
             <div class="modal-body">

@@ -50,6 +50,24 @@ values (
 
 The seeded admin password is `password`.
 
+## Temporary Gemini Archive Seeder
+
+The hidden Gemini seeding tool is for local/admin content creation only. It is not linked in the app navigation.
+
+```powershell
+$env:DEV_AI_SEED_KEY="choose-a-local-secret"
+$env:GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+$env:GEMINI_MODEL="gemini-2.5-flash"
+```
+
+Sign in as admin, then open:
+
+```text
+http://localhost:8080/dev-ai-seed.php?key=choose-a-local-secret
+```
+
+Generated items are published directly into the archive under the selected author account.
+
 ## V1 Notes
 
 - Public registration creates normal users only.

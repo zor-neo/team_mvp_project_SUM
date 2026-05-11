@@ -2,8 +2,14 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 if (is_post()) {
-    set_user_role((int) $_POST['user_id'], $_POST['role']);
-    flash('User role updated.');
+    require_csrf();
+    $role = $_POST['role'] ?? '';
+    if (in_array($role, ['user', 'author'], true)) {
+        set_user_role((int) $_POST['user_id'], $role);
+        flash('User role updated.');
+    } else {
+        flash('Invalid role update.', 'danger');
+    }
     redirect_to('admin-users.php');
 }
 $users = all_users();
@@ -24,6 +30,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <td class="text-end">
                         <?php if ($user['role'] !== 'admin'): ?>
                             <form method="post" class="d-inline">
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="user_id" value="<?= e((string)$user['id']) ?>">
                                 <input type="hidden" name="role" value="<?= $user['role'] === 'author' ? 'user' : 'author' ?>">
                                 <button class="btn btn-sm btn-outline-sw"><?= $user['role'] === 'author' ? 'Demote to User' : 'Promote to Author' ?></button>

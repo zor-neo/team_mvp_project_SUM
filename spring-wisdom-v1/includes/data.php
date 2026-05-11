@@ -177,6 +177,9 @@ function update_user_settings(int $id, string $theme, bool $emailNotifications):
 
 function set_user_role(int $id, string $role): void
 {
+    if (!in_array($role, ['user', 'author', 'admin'], true)) {
+        return;
+    }
     if (using_database()) {
         $stmt = db()->prepare('update users set role = :role where id = :id');
         $stmt->execute(['role' => $role, 'id' => $id]);
@@ -211,6 +214,7 @@ function content_by_id(int $id): ?array
 
 function create_content(int $authorId, array $data, ?string $filePath = null): int
 {
+    $data = normalize_content_data($data);
     if (using_database()) {
         $stmt = db()->prepare('insert into contents (author_id, title, category, summary, body, file_path, status) values (:author_id, :title, :category, :summary, :body, :file_path, :status) returning id');
         $stmt->execute(['author_id' => $authorId, 'title' => $data['title'], 'category' => $data['category'], 'summary' => $data['summary'], 'body' => $data['body'], 'file_path' => $filePath, 'status' => 'published']);
@@ -224,6 +228,9 @@ function create_content(int $authorId, array $data, ?string $filePath = null): i
 
 function update_content(int $id, array $data): void
 {
+    if (isset($data['title'], $data['category'], $data['summary'], $data['body'])) {
+        $data = array_merge($data, normalize_content_data($data));
+    }
     if (using_database()) {
         $fileSql = array_key_exists('file_path', $data) ? ', file_path = :file_path' : '';
         $stmt = db()->prepare("update contents set title = :title, category = :category, summary = :summary, body = :body{$fileSql}, updated_at = now() where id = :id");
@@ -253,6 +260,9 @@ function delete_content(int $id): void
 
 function set_content_status(int $id, string $status): void
 {
+    if (!in_array($status, ['published', 'hidden'], true)) {
+        return;
+    }
     if (using_database()) {
         $stmt = db()->prepare('update contents set status = :status where id = :id');
         $stmt->execute(['status' => $status, 'id' => $id]);
@@ -275,6 +285,11 @@ function all_feeds(): array
 
 function create_feed(int $adminId, array $data): void
 {
+    $data = [
+        'title' => text_limit($data['title'] ?? '', 140),
+        'summary' => text_limit($data['summary'] ?? '', 260),
+        'body' => text_limit($data['body'] ?? '', 5000),
+    ];
     if (using_database()) {
         $stmt = db()->prepare('insert into admin_feeds (admin_id, title, summary, body) values (:admin_id, :title, :summary, :body)');
         $stmt->execute(['admin_id' => $adminId, 'title' => $data['title'], 'summary' => $data['summary'], 'body' => $data['body']]);
@@ -285,6 +300,10 @@ function create_feed(int $adminId, array $data): void
 
 function submit_report(int $contentId, int $userId, string $category, string $text): void
 {
+    if (!in_array($category, ['Misleading information', 'Plagiarism', 'Inappropriate content', 'Broken or incomplete content'], true)) {
+        return;
+    }
+    $text = text_limit($text, 1200);
     $content = content_by_id($contentId);
     if (using_database()) {
         $stmt = db()->prepare('insert into reports (content_id, user_id, reason_category, reason_text, status) values (:content_id, :user_id, :category, :text, :status)');
@@ -305,6 +324,9 @@ function all_reports(): array
 
 function set_report_status(int $id, string $status): void
 {
+    if (!in_array($status, ['open', 'actioned', 'dismissed'], true)) {
+        return;
+    }
     if (using_database()) {
         $stmt = db()->prepare('update reports set status = :status where id = :id');
         $stmt->execute(['status' => $status, 'id' => $id]);
@@ -319,6 +341,7 @@ function set_report_status(int $id, string $status): void
 
 function submit_author_request(int $userId, string $reason): void
 {
+    $reason = text_limit($reason, 1200);
     if (using_database()) {
         $stmt = db()->prepare('insert into author_requests (user_id, reason_text, status) values (:user_id, :reason, :status)');
         $stmt->execute(['user_id' => $userId, 'reason' => $reason, 'status' => 'pending']);
@@ -338,6 +361,9 @@ function all_author_requests(): array
 
 function review_author_request(int $id, string $status, int $adminId): void
 {
+    if (!in_array($status, ['approved', 'rejected'], true)) {
+        return;
+    }
     if (using_database()) {
         $request = db()->prepare('select * from author_requests where id = :id');
         $request->execute(['id' => $id]);
@@ -411,4 +437,32 @@ function latest_content_date(array $contents): string
     $dates = array_filter(array_map(fn($content) => substr((string) ($content['created_at'] ?? ''), 0, 10), $contents));
     rsort($dates);
     return $dates[0] ?? 'No posts yet';
+}
+
+function text_limit(string $value, int $maxLength): string
+{
+    $value = trim($value);
+    if (strlen($value) <= $maxLength) {
+        return $value;
+    }
+    return trim(substr($value, 0, $maxLength));
+}
+
+function allowed_content_categories(): array
+{
+    return ['Historical Archives', 'Philosophy', 'Logic & Reason', 'Scientific Method', 'Literature Collections', 'Daily Challenges'];
+}
+
+function normalize_content_data(array $data): array
+{
+    $category = trim((string) ($data['category'] ?? ''));
+    if (!in_array($category, allowed_content_categories(), true)) {
+        $category = 'Historical Archives';
+    }
+    return [
+        'title' => text_limit((string) ($data['title'] ?? ''), 140),
+        'category' => $category,
+        'summary' => text_limit((string) ($data['summary'] ?? ''), 260),
+        'body' => text_limit((string) ($data['body'] ?? ''), 8000),
+    ];
 }

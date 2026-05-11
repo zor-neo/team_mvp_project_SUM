@@ -6,6 +6,7 @@ require_role(['author']);
 $user = current_user();
 
 if (is_post()) {
+    require_csrf();
     $action = $_POST['action'] ?? '';
     if ($action === 'create') {
         $data = [
@@ -22,17 +23,27 @@ if (is_post()) {
         flash('Content created.');
     }
     if ($action === 'update') {
-        update_content((int) $_POST['content_id'], [
-            'title' => trim($_POST['title'] ?? ''),
-            'category' => trim($_POST['category'] ?? ''),
-            'summary' => trim($_POST['summary'] ?? ''),
-            'body' => trim($_POST['body'] ?? ''),
-        ]);
-        flash('Content updated.');
+        $content = content_by_id((int) $_POST['content_id']);
+        if ($content && (int) $content['author_id'] === (int) actual_user()['id']) {
+            update_content((int) $_POST['content_id'], [
+                'title' => trim($_POST['title'] ?? ''),
+                'category' => trim($_POST['category'] ?? ''),
+                'summary' => trim($_POST['summary'] ?? ''),
+                'body' => trim($_POST['body'] ?? ''),
+            ]);
+            flash('Content updated.');
+        } else {
+            flash('You can only edit your own content.', 'danger');
+        }
     }
     if ($action === 'delete') {
-        delete_content((int) $_POST['content_id']);
-        flash('Content deleted.', 'warning');
+        $content = content_by_id((int) $_POST['content_id']);
+        if ($content && (int) $content['author_id'] === (int) actual_user()['id']) {
+            delete_content((int) $_POST['content_id']);
+            flash('Content deleted.', 'warning');
+        } else {
+            flash('You can only delete your own content.', 'danger');
+        }
     }
     redirect_to('author-dashboard.php');
 }
@@ -57,6 +68,7 @@ require __DIR__ . '/includes/header.php';
             <h2 class="h3 mb-0">Upload New Content</h2>
         </div>
         <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="create">
             <div class="row g-3">
                 <div class="col-md-6"><label class="form-label">Content Title</label><input class="form-control" name="title" required></div>
@@ -95,6 +107,7 @@ require __DIR__ . '/includes/header.php';
             <div class="modal fade" id="edit<?= e((string)$content['id']) ?>" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <form method="post" class="modal-content needs-validation" novalidate>
+                        <?= csrf_field() ?>
                         <input type="hidden" name="action" value="update"><input type="hidden" name="content_id" value="<?= e((string)$content['id']) ?>">
                         <div class="modal-header"><h5 class="modal-title">Edit Content</h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button></div>
                         <div class="modal-body row g-3">
@@ -110,6 +123,7 @@ require __DIR__ . '/includes/header.php';
             <div class="modal fade" id="delete<?= e((string)$content['id']) ?>" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="post" class="modal-content">
+                        <?= csrf_field() ?>
                         <input type="hidden" name="action" value="delete"><input type="hidden" name="content_id" value="<?= e((string)$content['id']) ?>">
                         <div class="modal-header"><h5 class="modal-title">Delete Content</h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button></div>
                         <div class="modal-body">Delete "<?= e($content['title']) ?>"?</div>

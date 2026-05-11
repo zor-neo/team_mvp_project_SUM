@@ -43,14 +43,18 @@ function current_user(): ?array
 
 function login_user(array $user): void
 {
+    session_regenerate_id(true);
     $_SESSION['user_id'] = (int) $user['id'];
     unset($_SESSION['audit_role']);
+    unset($_SESSION['csrf_token']);
 }
 
 function logout_user(): void
 {
     unset($_SESSION['user_id']);
     unset($_SESSION['audit_role']);
+    unset($_SESSION['csrf_token']);
+    session_regenerate_id(true);
 }
 
 function attempt_login(string $email, string $password): bool

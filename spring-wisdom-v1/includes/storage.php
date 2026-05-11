@@ -13,8 +13,33 @@ function storage_upload(array $file, int $contentId): ?string
         flash('The file could not be uploaded.', 'danger');
         return null;
     }
+    if (($file['size'] ?? 0) > 5 * 1024 * 1024) {
+        flash('Source file must be 5MB or smaller.', 'danger');
+        return null;
+    }
 
     $safeName = preg_replace('/[^A-Za-z0-9._-]/', '-', basename($file['name']));
+    $ext = strtolower(pathinfo($safeName, PATHINFO_EXTENSION));
+    $allowedExt = ['pdf', 'txt', 'docx'];
+    $allowedMime = [
+        'pdf' => ['application/pdf'],
+        'txt' => ['text/plain'],
+        'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'],
+    ];
+    if (!in_array($ext, $allowedExt, true)) {
+        flash('Source file must be PDF, TXT, or DOCX.', 'danger');
+        return null;
+    }
+    $mime = function_exists('finfo_open') ? null : ($file['type'] ?? '');
+    if (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+    }
+    if ($mime && !in_array($mime, $allowedMime[$ext], true)) {
+        flash('Source file type does not match the selected file.', 'danger');
+        return null;
+    }
     $storagePath = 'contents/' . $contentId . '/' . $safeName;
 
     $url = rtrim(getenv('SUPABASE_URL') ?: '', '/');
@@ -54,4 +79,3 @@ function storage_upload(array $file, int $contentId): ?string
 
     return $storagePath;
 }
-

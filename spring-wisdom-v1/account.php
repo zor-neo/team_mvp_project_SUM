@@ -38,6 +38,7 @@ function save_profile_picture(array $file, int $userId): ?string
 }
 
 if (is_post()) {
+    require_csrf();
     $data = [
         'name' => trim($_POST['name'] ?? ''),
         'phone' => trim($_POST['phone'] ?? ''),
@@ -71,6 +72,7 @@ require __DIR__ . '/includes/header.php';
             <div class="sw-panel">
                 <h2 class="h3 fw-bold mb-4">Account Information</h2>
                 <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <?= csrf_field() ?>
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label">Username / Display Name</label><input class="form-control" name="name" value="<?= e($user['name']) ?>" required></div>
                         <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" value="<?= e($user['email']) ?>" disabled></div>
@@ -90,4 +92,3 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
-

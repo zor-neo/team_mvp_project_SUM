@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 if (is_post()) {
+    require_csrf();
     $action = $_POST['action'] ?? '';
     if ($action === 'hide') {
         set_content_status((int) $_POST['content_id'], 'hidden');
@@ -35,11 +36,13 @@ require __DIR__ . '/includes/admin-sidebar.php';
                         <a class="btn btn-sm btn-outline-sw" href="<?= e(url_for('content.php?id=' . $report['content_id'] . '&review=report')) ?>">View Content</a>
                         <button class="btn btn-sm btn-outline-sw">Message Author</button>
                         <form method="post" class="d-inline">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="action" value="dismiss">
                             <input type="hidden" name="report_id" value="<?= e((string)$report['id']) ?>">
                             <button class="btn btn-sm btn-outline-sw">Dismiss</button>
                         </form>
                         <form method="post" class="d-inline">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="action" value="hide">
                             <input type="hidden" name="report_id" value="<?= e((string)$report['id']) ?>">
                             <input type="hidden" name="content_id" value="<?= e((string)$report['content_id']) ?>">
