@@ -27,6 +27,7 @@ The Access Portal also has demo role buttons.
 4. Set environment variables before starting PHP:
 
 ```powershell
+$env:APP_ENV="production"
 $env:SUPABASE_DB_DSN="pgsql:host=YOUR_HOST;port=5432;dbname=postgres;sslmode=require"
 $env:SUPABASE_DB_USER="postgres"
 $env:SUPABASE_DB_PASSWORD="YOUR_DATABASE_PASSWORD"
@@ -35,6 +36,8 @@ $env:SUPABASE_SERVICE_ROLE_KEY="YOUR_SERVICE_ROLE_KEY"
 $env:SUPABASE_STORAGE_BUCKET="content-files"
 php -S localhost:8080
 ```
+
+For local demo mode, leave `APP_ENV` unset or set it to `local`. In production mode, Spring Wisdom requires Supabase DB configuration and will not silently fall back to session demo data.
 
 Seed an admin manually after creating the schema:
 
@@ -67,6 +70,17 @@ http://localhost:8080/dev-ai-seed.php?key=choose-a-local-secret
 ```
 
 Generated items are published directly into the archive under the selected author account.
+
+## Deployment Checklist
+
+- Use a PHP-capable host with HTTPS enabled.
+- Set `APP_ENV=production`.
+- Set all Supabase database environment variables.
+- Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_STORAGE_BUCKET`.
+- Run `schema.sql` in Supabase before opening the deployed app.
+- Seed at least one admin account.
+- Confirm the `content-files` storage bucket exists.
+- Do not expose `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, or `DEV_AI_SEED_KEY` in browser JavaScript.
 
 ## V1 Notes
 

@@ -32,7 +32,7 @@ create table reports (
   user_id bigint not null references users(id) on delete cascade,
   reason_category text not null,
   reason_text text not null,
-  status text not null default 'open',
+  status text not null default 'open' check (status in ('open', 'actioned', 'dismissed')),
   created_at timestamptz not null default now()
 );
 
@@ -62,8 +62,15 @@ create table messages (
   content_id bigint references contents(id) on delete set null,
   subject text not null,
   body text not null,
-  status text not null default 'new',
+  status text not null default 'new' check (status in ('new', 'read', 'resolved')),
   reply_text text,
   replied_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+create index idx_users_role on users(role);
+create index idx_contents_author_id on contents(author_id);
+create index idx_contents_status_created_at on contents(status, created_at desc);
+create index idx_reports_status_created_at on reports(status, created_at desc);
+create index idx_author_requests_status_created_at on author_requests(status, created_at desc);
+create index idx_messages_status_created_at on messages(status, created_at desc);

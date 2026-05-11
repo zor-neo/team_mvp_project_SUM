@@ -69,6 +69,14 @@ function storage_upload(array $file, int $contentId): ?string
         }
 
         flash('Supabase Storage upload failed. Demo path was saved instead.', 'warning');
+        if (is_production()) {
+            return null;
+        }
+    }
+
+    if (is_production()) {
+        flash('Supabase Storage is required in production.', 'danger');
+        return null;
     }
 
     $localDir = dirname(__DIR__) . '/uploads/contents/' . $contentId;

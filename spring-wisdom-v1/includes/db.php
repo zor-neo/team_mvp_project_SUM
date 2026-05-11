@@ -18,6 +18,9 @@ function db(): ?PDO
     $password = getenv('SUPABASE_DB_PASSWORD') ?: '';
 
     if ($dsn === '') {
+        if (is_production()) {
+            production_config_error('SUPABASE_DB_DSN is required when APP_ENV=production.');
+        }
         return null;
     }
 
@@ -28,6 +31,9 @@ function db(): ?PDO
         ]);
         return $pdo;
     } catch (Throwable $error) {
+        if (is_production()) {
+            production_config_error('Supabase database connection failed. Check DB host, user, password, and SSL settings.');
+        }
         $_SESSION['db_notice'] = 'Supabase database is not connected, using demo data.';
         return null;
     }
@@ -37,4 +43,3 @@ function using_database(): bool
 {
     return db() instanceof PDO;
 }
-
