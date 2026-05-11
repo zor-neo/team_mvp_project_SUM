@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/env.php';
+
+load_local_env(dirname(__DIR__) . '/.env');
+
 if (session_status() === PHP_SESSION_NONE) {
     $secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     session_set_cookie_params([
