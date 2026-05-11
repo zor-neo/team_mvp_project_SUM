@@ -28,6 +28,10 @@ Default seeded password: `password`.
 
 Change this password immediately after first login.
 
+Optional demo data:
+
+Run `seed.sql` after the admin seed if you want sample accounts and archive content for testing. It creates 3 authors, 3 normal users, and 15 published reading contents. The sample account password is also `password`.
+
 ## 3. Configure Environment Variables
 
 Use `.env.example` as the reference. In production, set:

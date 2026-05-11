@@ -34,13 +34,4 @@ document.addEventListener('DOMContentLoaded', () => {
       button.innerHTML = button.classList.contains('active') ? '<i class="bi bi-bookmark-fill"></i>' : '<i class="bi bi-bookmark"></i>';
     });
   });
-
-  document.querySelectorAll('[data-photo-preview]').forEach((input) => {
-    input.addEventListener('change', () => {
-      const preview = document.querySelector(input.dataset.photoPreview);
-      const file = input.files && input.files[0];
-      if (!preview || !file) return;
-      preview.src = URL.createObjectURL(file);
-    });
-  });
 });

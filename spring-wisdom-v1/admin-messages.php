@@ -43,17 +43,23 @@ require __DIR__ . '/includes/admin-sidebar.php';
             <p class="sw-muted mb-0">No messages yet.</p>
         <?php endif; ?>
         <?php foreach ($messages as $message): ?>
-            <div class="border-bottom py-3">
-                <div class="d-flex justify-content-between gap-3">
-                    <div>
-                        <h2 class="h5 mb-1"><?= e($message['subject']) ?></h2>
-                        <p class="small sw-muted mb-1">From <?= e($message['sender_name']) ?> to <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e($message['created_at']) ?></p>
-                        <span class="badge sw-badge"><?= e($message['status']) ?></span>
+            <div class="sw-message-card <?= $message['status'] === 'new' ? 'has-ribbon' : '' ?> mb-3">
+                <?php if ($message['status'] === 'new'): ?>
+                    <span class="sw-message-ribbon">New message</span>
+                <?php endif; ?>
+                <div class="d-flex flex-column gap-2">
+                    <div class="pe-md-5">
+                        <h2 class="h6 fw-bold mb-1"><?= e($message['subject']) ?></h2>
+                        <p class="small sw-muted mb-1">From <?= e($message['sender_name']) ?> to <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                         <?php if (!empty($message['content_title'])): ?>
-                            <span class="small sw-muted ms-2"><?= e($message['content_title']) ?></span>
+                            <p class="small sw-muted mb-0"><?= e($message['content_title']) ?></p>
                         <?php endif; ?>
                     </div>
-                    <button class="btn btn-sm btn-outline-sw" data-bs-toggle="modal" data-bs-target="#message<?= e((string) $message['id']) ?>">View</button>
+                    <div class="text-end">
+                        <button class="btn btn-sm btn-sw-primary sw-message-view" data-bs-toggle="modal" data-bs-target="#message<?= e((string) $message['id']) ?>">
+                            View <i class="bi bi-arrow-right-short"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="modal fade" id="message<?= e((string) $message['id']) ?>" tabindex="-1" aria-hidden="true">

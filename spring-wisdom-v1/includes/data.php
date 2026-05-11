@@ -400,6 +400,21 @@ function all_messages(): array
     return table_rows('messages');
 }
 
+function messages_for_user(int $userId): array
+{
+    if (using_database()) {
+        $stmt = db()->prepare('select m.*, s.name as sender_name, r.name as receiver_name, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id where m.sender_id = :id or m.receiver_id = :id order by m.created_at desc');
+        $stmt->execute(['id' => $userId]);
+        return $stmt->fetchAll();
+    }
+    return array_values(array_filter(table_rows('messages'), fn($message) => (int) $message['sender_id'] === $userId || (int) ($message['receiver_id'] ?? 0) === $userId));
+}
+
+function first_admin_user(): ?array
+{
+    return find_user_by_role('admin');
+}
+
 function create_message(int $senderId, ?int $receiverId, string $subject, string $body, ?int $reportId = null, ?int $contentId = null): void
 {
     $subject = text_limit($subject, 160);

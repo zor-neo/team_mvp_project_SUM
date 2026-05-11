@@ -41,6 +41,37 @@ function e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function friendly_time(?string $value): string
+{
+    if (!$value) {
+        return 'recently';
+    }
+
+    $timestamp = strtotime($value);
+    if (!$timestamp) {
+        return $value;
+    }
+
+    $diff = time() - $timestamp;
+    if ($diff < 60 && $diff >= 0) {
+        return 'just now';
+    }
+    if ($diff < 3600 && $diff >= 0) {
+        $minutes = max(1, (int) floor($diff / 60));
+        return $minutes . ' min ago';
+    }
+    if ($diff < 86400 && $diff >= 0) {
+        $hours = max(1, (int) floor($diff / 3600));
+        return $hours . ' hr' . ($hours === 1 ? '' : 's') . ' ago';
+    }
+    if ($diff < 604800 && $diff >= 0) {
+        $days = max(1, (int) floor($diff / 86400));
+        return $days . ' day' . ($days === 1 ? '' : 's') . ' ago';
+    }
+
+    return date('M j, Y', $timestamp);
+}
+
 function is_post(): bool
 {
     return ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST';

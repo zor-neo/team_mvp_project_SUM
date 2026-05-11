@@ -38,6 +38,7 @@ if (is_post() && ($_POST['action'] ?? '') === 'report') {
 
 $pageTitle = $content['title'];
 $active = $isReportReview ? 'admin-reports' : 'browse';
+$hasAttachment = !empty($content['file_path']);
 require __DIR__ . '/includes/header.php';
 ?>
 <section class="container-lg py-5">
@@ -46,9 +47,20 @@ require __DIR__ . '/includes/header.php';
             <div class="sw-panel">
                 <span class="badge sw-badge"><?= e($content['category']) ?></span>
                 <h1 class="display-6 fw-bold mt-3"><?= e($content['title']) ?></h1>
-                <p class="sw-muted">By <?= e($content['author_name']) ?> - Preserved <?= e($content['created_at']) ?></p>
+                <p class="sw-muted">By <?= e($content['author_name']) ?> - Uploaded <?= e(friendly_time((string) $content['created_at'])) ?></p>
                 <hr>
                 <p class="lead"><?= e($content['summary']) ?></p>
+                <?php if ($hasAttachment): ?>
+                    <div class="border rounded-3 p-3 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div>
+                            <p class="fw-semibold mb-1"><i class="bi bi-paperclip me-2"></i>Attached learning file</p>
+                            <p class="small sw-muted mb-0"><?= e(basename((string) $content['file_path'])) ?> - available for readers of this published content</p>
+                        </div>
+                        <a class="btn btn-outline-sw btn-sm" href="<?= e(url_for('file-view.php?id=' . (int) $content['id'])) ?>" target="_blank" rel="noopener">
+                            Open file <i class="bi bi-box-arrow-up-right ms-1"></i>
+                        </a>
+                    </div>
+                <?php endif; ?>
                 <div class="article-body mt-4"><?= nl2br(e($content['body'])) ?></div>
                 <div class="d-flex flex-wrap gap-2 mt-5">
                     <?php if ($isReportReview): ?>

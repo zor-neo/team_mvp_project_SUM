@@ -81,7 +81,7 @@ require __DIR__ . '/includes/header.php';
                         <div class="col-12"><label class="form-label">Additional Info / Bio</label><textarea class="form-control" name="bio" rows="4" placeholder="Add information not requested during registration."><?= e($user['bio'] ?? '') ?></textarea></div>
                         <div class="col-12">
                             <label class="form-label">Change Profile Picture</label>
-                            <input class="form-control" type="file" name="profile_photo" accept="image/*" data-photo-preview="#profilePreview">
+                            <input class="form-control" type="file" name="profile_photo" accept="image/*">
                             <div class="form-text">JPG, PNG, GIF, or WEBP. Max 2MB. The navbar and profile page resize it proportionately.</div>
                         </div>
                     </div>

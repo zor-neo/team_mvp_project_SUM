@@ -100,10 +100,13 @@ require __DIR__ . '/includes/header.php';
                             <div class="card-body">
                                 <div class="d-flex justify-content-between gap-3 align-items-start mb-3">
                                     <span class="badge sw-badge"><?= e($content['category']) ?></span>
-                                    <span class="small sw-muted"><?= e(substr((string) $content['created_at'], 0, 10)) ?></span>
+                                    <span class="small sw-muted"><?= e(friendly_time((string) $content['created_at'])) ?></span>
                                 </div>
                                 <h3 class="h5 fw-bold"><?= e($content['title']) ?></h3>
                                 <p class="small sw-muted mb-2">By <?= e($content['author_name'] ?? 'Author') ?></p>
+                                <?php if (!empty($content['file_path'])): ?>
+                                    <p class="small sw-muted mb-2"><i class="bi bi-paperclip"></i> File attached</p>
+                                <?php endif; ?>
                                 <p class="sw-muted"><?= e($content['summary']) ?></p>
                             </div>
                             <div class="card-footer bg-white border-0 pt-0">

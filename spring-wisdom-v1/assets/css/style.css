@@ -155,6 +155,50 @@ h1, h2, h3, h4, h5, h6 {
 .sw-soft { background: var(--sw-surface-soft); }
 .sw-section { padding: 2.45rem 0; }
 
+.sw-message-card {
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0.85rem 0.95rem;
+  position: relative;
+}
+
+.sw-message-card.has-ribbon {
+  padding-top: 1.75rem;
+}
+
+.sw-message-ribbon {
+  background: var(--sw-primary);
+  color: #fffdf7;
+  font-size: 0.68rem;
+  font-weight: 800;
+  left: -1px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 0.38rem 0.72rem;
+  position: absolute;
+  text-transform: uppercase;
+  top: -1px;
+}
+
+.sw-message-ribbon::after {
+  border-left: 10px solid var(--sw-primary);
+  border-top: 21px solid transparent;
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 0;
+}
+
+.sw-message-view {
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-width: 78px;
+  padding: 0.32rem 0.72rem;
+}
+
 .btn-sw-primary, .btn-primary {
   --bs-btn-bg: var(--sw-primary);
   --bs-btn-border-color: var(--sw-primary);
@@ -171,13 +215,23 @@ h1, h2, h3, h4, h5, h6 {
 .btn-outline-sw:hover { background: var(--sw-surface-soft); color: var(--sw-primary-hover); }
 
 .btn-icon {
-  border: 1px solid var(--sw-border);
+  border: 0;
   color: var(--sw-primary);
+  background: transparent;
   border-radius: 999px;
   width: 40px;
   height: 40px;
   padding: 0;
   overflow: hidden;
+}
+
+.btn-icon:hover,
+.btn-icon:focus,
+.btn-icon:active,
+.btn-icon.show {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .sw-avatar {

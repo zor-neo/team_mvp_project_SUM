@@ -95,6 +95,12 @@ require __DIR__ . '/includes/header.php';
                     <div class="card-body">
                         <span class="badge sw-badge"><?= e($content['category']) ?></span>
                         <h3 class="h5 mt-3"><?= e($content['title']) ?></h3>
+                        <p class="small sw-muted mb-2">
+                            Uploaded <?= e(friendly_time((string) $content['created_at'])) ?>
+                            <?php if (!empty($content['file_path'])): ?>
+                                <span class="ms-2"><i class="bi bi-paperclip"></i> File attached</span>
+                            <?php endif; ?>
+                        </p>
                         <p class="sw-muted"><?= e($content['summary']) ?></p>
                     </div>
                     <div class="card-footer bg-white d-flex justify-content-between">

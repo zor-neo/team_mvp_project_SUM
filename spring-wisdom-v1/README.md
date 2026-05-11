@@ -2,7 +2,7 @@
 
 Plain PHP + Bootstrap learning / reading hub based on the concept UI.
 
-For production setup, see `DEPLOYMENT.md`. For environment variable names, see `.env.example`. For local filling instructions, see `ENV_GUIDE.md`.
+For production setup, see `DEPLOYMENT.md`. For environment variable names, see `.env.example`. For local filling instructions, see `ENV_GUIDE.md`. For performance tradeoffs and student-project limitations, see `TECHNICAL_LIMITATIONS.md`.
 
 Local `.env` values are loaded automatically by the app. Real server environment variables are not overwritten.
 

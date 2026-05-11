@@ -87,3 +87,54 @@ function storage_upload(array $file, int $contentId): ?string
 
     return $storagePath;
 }
+
+function storage_signed_url(string $storagePath, int $expiresIn = 300): ?string
+{
+    $storagePath = ltrim($storagePath, '/');
+    if ($storagePath === '') {
+        return null;
+    }
+
+    $localPath = dirname(__DIR__) . '/uploads/' . $storagePath;
+    if (is_file($localPath)) {
+        return url_for('uploads/' . $storagePath);
+    }
+
+    $url = rtrim(getenv('SUPABASE_URL') ?: '', '/');
+    $key = getenv('SUPABASE_SERVICE_ROLE_KEY') ?: '';
+    $bucket = getenv('SUPABASE_STORAGE_BUCKET') ?: 'content-files';
+    if ($url === '' || $key === '' || !function_exists('curl_init')) {
+        return null;
+    }
+
+    $endpoint = $url . '/storage/v1/object/sign/' . rawurlencode($bucket) . '/' . str_replace('%2F', '/', rawurlencode($storagePath));
+    $ch = curl_init($endpoint);
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode(['expiresIn' => $expiresIn]),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . $key,
+            'apikey: ' . $key,
+            'Content-Type: application/json',
+        ],
+    ]);
+    $response = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($status < 200 || $status >= 300 || !is_string($response)) {
+        return null;
+    }
+
+    $payload = json_decode($response, true);
+    $signedUrl = is_array($payload) ? (string) ($payload['signedURL'] ?? '') : '';
+    if ($signedUrl === '') {
+        return null;
+    }
+    if (str_starts_with($signedUrl, 'http://') || str_starts_with($signedUrl, 'https://')) {
+        return $signedUrl;
+    }
+
+    return $url . $signedUrl;
+}

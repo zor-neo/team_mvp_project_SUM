@@ -39,6 +39,9 @@ $isAuditing = $isAdminAccount && $effectiveRole !== 'admin';
                         <li class="nav-item"><a class="nav-link <?= str_starts_with($active, 'admin') ? 'active' : '' ?>" href="<?= e(url_for('admin-dashboard.php')) ?>">Dashboard</a></li>
                     <?php endif; ?>
                     <li class="nav-item"><a class="nav-link <?= $active === 'feed' ? 'active' : '' ?>" href="<?= e(url_for('admin-feed.php')) ?>">Updates</a></li>
+                    <?php if ($effectiveRole !== 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link <?= $active === 'messages' ? 'active' : '' ?>" href="<?= e(url_for('messages.php')) ?>">Messages</a></li>
+                    <?php endif; ?>
                     <?php if ($effectiveRole === 'user' && !$isAdminAccount): ?>
                         <li class="nav-item"><a class="nav-link <?= $active === 'author-request' ? 'active' : '' ?>" href="<?= e(url_for('author-request.php')) ?>">Author Request</a></li>
                     <?php endif; ?>
@@ -82,6 +85,9 @@ $isAuditing = $isAdminAccount && $effectiveRole !== 'admin';
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="<?= e(url_for('account.php')) ?>"><i class="bi bi-person me-2"></i>Account Information</a></li>
                             <li><a class="dropdown-item" href="<?= e(url_for('change-password.php')) ?>"><i class="bi bi-lock me-2"></i>Change Password</a></li>
+                            <?php if ($user['role'] !== 'admin'): ?>
+                                <li><a class="dropdown-item" href="<?= e(url_for('messages.php')) ?>"><i class="bi bi-envelope me-2"></i>Messages</a></li>
+                            <?php endif; ?>
                             <?php if ($user['role'] === 'user'): ?>
                                 <li><a class="dropdown-item" href="<?= e(url_for('author-request.php')) ?>"><i class="bi bi-pencil-square me-2"></i>Author Request</a></li>
                             <?php endif; ?>

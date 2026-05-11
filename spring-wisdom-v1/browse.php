@@ -65,6 +65,12 @@ require __DIR__ . '/includes/header.php';
                     <div class="card-body p-4 p-lg-5">
                         <span class="badge sw-badge"><?= e($featured['category']) ?></span>
                         <h2 class="h3 fw-bold mt-3"><?= e($featured['title']) ?></h2>
+                        <p class="small sw-muted mb-2">
+                            Uploaded <?= e(friendly_time((string) $featured['created_at'])) ?>
+                            <?php if (!empty($featured['file_path'])): ?>
+                                <span class="ms-2"><i class="bi bi-paperclip"></i> File attached</span>
+                            <?php endif; ?>
+                        </p>
                         <p class="sw-muted"><?= e($featured['summary']) ?></p>
                         <a class="btn btn-sw-primary" href="<?= e(url_for('content.php?' . http_build_query(['id' => $featured['id'], 'from' => 'browse', 'return' => $browseReturn]))) ?>">Read Full Archive</a>
                     </div>
@@ -89,6 +95,12 @@ require __DIR__ . '/includes/header.php';
                             <button class="btn btn-sm btn-outline-sw" type="button" data-bookmark><i class="bi bi-bookmark"></i></button>
                         </div>
                         <h3 class="h5 mt-3"><?= e($content['title']) ?></h3>
+                        <p class="small sw-muted mb-2">
+                            <?= e(friendly_time((string) $content['created_at'])) ?>
+                            <?php if (!empty($content['file_path'])): ?>
+                                <span class="ms-2"><i class="bi bi-paperclip"></i> File</span>
+                            <?php endif; ?>
+                        </p>
                         <p class="sw-muted"><?= e($content['summary']) ?></p>
                     </div>
                     <div class="card-footer bg-white border-0 pt-0">
