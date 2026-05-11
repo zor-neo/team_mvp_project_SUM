@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Admin Dashboard - Spring Wisdom</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-high": "#e6e8f1",
+                "tertiary-fixed": "#deccfd",
+                "on-secondary": "#f8f8ff",
+                "tertiary": "#665881",
+                "on-secondary-container": "#495264",
+                "on-secondary-fixed": "#374051",
+                "inverse-primary": "#b1cafb",
+                "secondary-fixed-dim": "#ccd4ea",
+                "on-surface": "#2f323b",
+                "tertiary-dim": "#5a4c75",
+                "primary": "#465f8a",
+                "surface-container-highest": "#dfe2ed",
+                "on-tertiary-fixed-variant": "#594c74",
+                "on-tertiary": "#fef7ff",
+                "surface-container": "#ecedf6",
+                "background": "#f9f9fe",
+                "on-tertiary-container": "#50426a",
+                "on-tertiary-fixed": "#3c2f56",
+                "on-background": "#2f323b",
+                "primary-fixed-dim": "#a3bcec",
+                "on-primary-fixed": "#112e56",
+                "secondary-fixed": "#dae2f8",
+                "on-error": "#fff7f6",
+                "surface-variant": "#dfe2ed",
+                "on-primary-container": "#28426b",
+                "secondary": "#565f71",
+                "outline": "#777b84",
+                "secondary-container": "#dae2f8",
+                "tertiary-fixed-dim": "#d0bfee",
+                "inverse-surface": "#0c0e12",
+                "on-primary": "#f8f8ff",
+                "tertiary-container": "#deccfd",
+                "error-container": "#fa746f",
+                "primary-fixed": "#b1cafb",
+                "surface": "#f9f9fe",
+                "on-surface-variant": "#5b5f68",
+                "inverse-on-surface": "#9c9ca2",
+                "primary-container": "#b1cafb",
+                "on-error-container": "#6e0a12",
+                "error-dim": "#67040d",
+                "surface-dim": "#d7dae4",
+                "on-secondary-fixed-variant": "#535c6e",
+                "error": "#a83836",
+                "secondary-dim": "#4a5365",
+                "surface-container-lowest": "#ffffff",
+                "surface-bright": "#f9f9fe",
+                "primary-dim": "#3a537d",
+                "outline-variant": "#aeb2bc",
+                "surface-tint": "#465f8a",
+                "on-primary-fixed-variant": "#324b75",
+                "surface-container-low": "#f2f3fb"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {},
+        "fontFamily": {
+                "headline": [
+                        "Inter"
+                ],
+                "display": [
+                        "Inter"
+                ],
+                "body": [
+                        "Inter"
+                ],
+                "label": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-background font-body antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Desktop/Tablet) -->
+<nav class="bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline-variant flex flex-col py-6 space-y-2 hidden md:flex z-40">
+<div class="px-6 mb-6">
+<h2 class="font-headline text-xl font-bold text-primary">Admin Portal</h2>
+<p class="font-body text-sm text-on-surface-variant mt-1">Spring Wisdom Management</p>
+</div>
+<div class="flex-grow flex flex-col space-y-2 overflow-y-auto">
+<a class="bg-primary text-on-primary rounded-lg mx-2 flex items-center px-4 py-3 font-body text-base" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">edit_note</span>
+                Content Manager
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+                User Accounts
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">badge</span>
+                Author Accounts
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+                Analytics
+            </a><a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">rss_feed</span>
+                Create Admin Feed
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors mx-2 rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto flex flex-col space-y-2 pt-4 border-t border-outline-variant dark:border-outline-variant px-2">
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg flex items-center px-4 py-3 font-body text-base hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-64 w-full">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface w-full top-0 border-b border-outline-variant dark:border-outline-variant z-30 sticky">
+<div class="max-w-[1140px] mx-auto px-6 flex justify-between items-center h-20 transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-4 md:hidden">
+<span class="font-display text-2xl font-bold text-primary">Spring Wisdom</span>
+</div>
+<div class="hidden md:flex flex-1 justify-center">
+<nav class="flex space-x-8">
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-lg hover:text-primary dark:hover:text-inverse-primary transition-all duration-300 ease-in-out" href="#">About Us</a>
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-lg hover:text-primary dark:hover:text-inverse-primary transition-all duration-300 ease-in-out" href="#">Track</a>
+<div class="relative group">
+<button class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-lg flex items-center gap-1 transition-all duration-300 ease-in-out">
+        Categories
+        <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<div class="absolute left-0 mt-2 w-48 bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline-variant rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+<a class="block px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">Philosophy</a>
+<a class="block px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">Logic &amp; Reason</a>
+<a class="block px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">Historical Context</a>
+<a class="block px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">Daily Challenges</a>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-primary dark:text-inverse-primary hover:text-primary dark:hover:text-inverse-primary transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="relative group">
+<button class="text-primary dark:text-inverse-primary hover:text-primary dark:hover:text-inverse-primary transition-all duration-300 ease-in-out flex items-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<div class="absolute right-0 mt-2 w-56 bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline-variant rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+<a class="flex items-center px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">person</span>
+      Account Information
+    </a>
+<a class="flex items-center px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">lock</span>
+      Change Password
+    </a>
+<a class="flex items-center px-4 py-2 font-body text-sm text-on-surface dark:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">settings</span>
+      Settings
+    </a>
+<div class="border-t border-outline-variant dark:border-outline-variant my-1"></div>
+<a class="flex items-center px-4 py-2 font-body text-sm text-error hover:bg-error-container hover:text-on-error-container transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">logout</span>
+      Logout
+    </a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-6 max-w-[1140px] mx-auto w-full pt-8 pb-20">
+<div class="mb-10">
+<h1 class="font-display text-4xl font-bold text-on-surface mb-2">Super Admin Dashboard</h1>
+<p class="font-body text-lg text-on-surface-variant">Overview of system health, content moderation, and user requests.</p>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Left Column: Moderation & Actions -->
+<div class="xl:col-span-2 space-y-8">
+<!-- Reported Articles Bento Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-[30px] shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-2xl font-semibold text-on-surface flex items-center">
+<span class="material-symbols-outlined mr-2 text-secondary">flag</span>
+                                Reported Articles
+                            </h3>
+<span class="bg-surface-container-highest text-on-surface-variant font-label text-xs uppercase tracking-wider px-3 py-1 rounded-full">Requires Action</span>
+</div>
+<div class="space-y-4">
+<!-- Article Item -->
+<div class="p-4 border border-outline-variant rounded-lg bg-surface flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div class="flex-1">
+<a class="font-headline text-xl font-semibold text-primary hover:underline line-clamp-1" href="#">The Ethics of Automated Preservation</a>
+<p class="font-body text-sm text-on-surface-variant mt-1">Reported by 3 users for: "Misleading Information"</p>
+<div class="flex items-center mt-2 gap-2">
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Author: J. Smith</span>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">ID: #88392</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+<button class="bg-surface text-on-surface border border-outline-variant hover:bg-surface-container-highest px-4 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors">Message Author</button>
+<button class="bg-secondary text-on-secondary hover:bg-primary px-4 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors">Hide Article</button>
+</div>
+</div>
+<!-- Article Item -->
+<div class="p-4 border border-outline-variant rounded-lg bg-surface flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div class="flex-1">
+<a class="font-headline text-xl font-semibold text-primary hover:underline line-clamp-1" href="#">Historical Inaccuracies in Early 20th Century Broad...</a>
+<p class="font-body text-sm text-on-surface-variant mt-1">Reported by 1 user for: "Plagiarism"</p>
+<div class="flex items-center mt-2 gap-2">
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Author: A. Rivera</span>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">ID: #88341</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+<button class="bg-surface text-on-surface border border-outline-variant hover:bg-surface-container-highest px-4 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors">Message Author</button>
+<button class="bg-secondary text-on-secondary hover:bg-primary px-4 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors">Hide Article</button>
+</div>
+</div>
+</div>
+</div>
+<!-- System Overview Bento Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col justify-between">
+<h4 class="font-headline text-xl font-semibold text-on-surface-variant mb-4">Total Preserved Articles</h4>
+<div class="flex items-end justify-between">
+<span class="font-display text-4xl font-bold text-on-surface">14,208</span>
+<span class="font-body text-sm text-primary flex items-center mb-2">+124 this week</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col justify-between">
+<h4 class="font-headline text-xl font-semibold text-on-surface-variant mb-4">Active Authors</h4>
+<div class="flex items-end justify-between">
+<span class="font-display text-4xl font-bold text-on-surface">892</span>
+<span class="font-body text-sm text-on-surface-variant flex items-center mb-2">Steady</span>
+</div>
+</div>
+</div>
+<!-- Additional Widgets Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- User Messages Bento Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col">
+<h4 class="font-headline text-xl font-semibold text-on-surface mb-4 flex items-center"><span class="material-symbols-outlined mr-2 text-primary">mail</span>User Messages</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-start border-b border-outline-variant pb-2">
+<div>
+<p class="font-body text-base text-on-surface font-semibold">Login Issue</p>
+<p class="font-body text-sm text-on-surface-variant">From: user@example.com</p>
+</div>
+<span class="text-xs bg-surface-container text-on-surface-variant px-2 py-1 rounded">2h ago</span>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body text-base text-on-surface font-semibold">Feedback on new layout</p>
+<p class="font-body text-sm text-on-surface-variant">From: reader@example.com</p>
+</div>
+<span class="text-xs bg-surface-container text-on-surface-variant px-2 py-1 rounded">5h ago</span>
+</div>
+</div>
+</div>
+<!-- Reports Bento Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col">
+<h4 class="font-headline text-xl font-semibold text-on-surface mb-4 flex items-center"><span class="material-symbols-outlined mr-2 text-secondary">bar_chart</span>Reports</h4>
+<div class="space-y-3">
+<a class="block p-3 border border-outline-variant rounded hover:bg-surface-container-high transition-colors" href="#">
+<div class="flex items-center justify-between">
+<span class="font-body text-base text-on-surface">Monthly Traffic</span>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_forward</span>
+</div>
+</a>
+<a class="block p-3 border border-outline-variant rounded hover:bg-surface-container-high transition-colors" href="#">
+<div class="flex items-center justify-between">
+<span class="font-body text-base text-on-surface">Content Performance</span>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_forward</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Author Requests -->
+<div class="xl:col-span-1">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-[30px] shadow-sm h-full">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-2xl font-semibold text-on-surface flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">person_add</span>
+                                Author Requests
+                            </h3>
+<span class="bg-primary text-on-primary font-label text-xs uppercase tracking-wider px-2 py-0.5 rounded-full">5 Pending</span>
+</div>
+<div class="space-y-6">
+<!-- Request Item -->
+<div class="border-b border-outline-variant pb-4 last:border-0 last:pb-0">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body text-lg text-on-surface font-semibold">Dr. Eleanor Vance</h4>
+<p class="font-body text-sm text-on-surface-variant">Expertise: Late 19th Century Literature</p>
+</div>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-3 italic">"I wish to contribute digital scans of my personal collection of obscure periodicals..."</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-on-primary hover:bg-surface-tint px-3 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors text-center">Promote to Author</button>
+<button class="bg-surface text-on-surface border border-outline-variant hover:bg-surface-container-highest px-3 py-2 rounded transition-colors" title="Review Profile">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Request Item -->
+<div class="border-b border-outline-variant pb-4 last:border-0 last:pb-0">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body text-lg text-on-surface font-semibold">Marcus Thorne</h4>
+<p class="font-body text-sm text-on-surface-variant">Expertise: Typography &amp; Layout History</p>
+</div>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-3 italic">"Hoping to share insights on the evolution of broadsheet grid systems."</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-on-primary hover:bg-surface-tint px-3 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors text-center">Promote to Author</button>
+<button class="bg-surface text-on-surface border border-outline-variant hover:bg-surface-container-highest px-3 py-2 rounded transition-colors" title="Review Profile">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Request Item -->
+<div class="border-b border-outline-variant pb-4 last:border-0 last:pb-0">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-body text-lg text-on-surface font-semibold">Sarah Jenkins</h4>
+<p class="font-body text-sm text-on-surface-variant">Expertise: Archival Methodologies</p>
+</div>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-3 italic">"Interested in curating a collection focused on early digital preservation techniques."</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-on-primary hover:bg-surface-tint px-3 py-2 rounded font-label text-xs uppercase tracking-wider transition-colors text-center">Promote to Author</button>
+<button class="bg-surface text-on-surface border border-outline-variant hover:bg-surface-container-highest px-3 py-2 rounded transition-colors" title="Review Profile">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-6 text-center">
+<a class="font-label text-xs uppercase tracking-wider text-primary hover:text-on-surface transition-colors" href="#">View All Requests →</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

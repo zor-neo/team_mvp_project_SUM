@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spring Wisdom - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#594c74",
+                        "on-surface-variant": "#5b5f68",
+                        "primary-fixed-dim": "#a3bcec",
+                        "surface-tint": "#465f8a",
+                        "on-secondary-fixed": "#374051",
+                        "error-container": "#fa746f",
+                        "surface-bright": "#f9f9fe",
+                        "background": "#f9f9fe",
+                        "surface": "#f9f9fe",
+                        "on-surface": "#2f323b",
+                        "secondary-container": "#dae2f8",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#0c0e12",
+                        "surface-container": "#ecedf6",
+                        "on-secondary": "#f8f8ff",
+                        "surface-container-low": "#f2f3fb",
+                        "surface-container-highest": "#dfe2ed",
+                        "primary-fixed": "#b1cafb",
+                        "secondary-fixed": "#dae2f8",
+                        "on-secondary-container": "#495264",
+                        "secondary": "#565f71",
+                        "on-secondary-fixed-variant": "#535c6e",
+                        "error-dim": "#67040d",
+                        "on-tertiary": "#fef7ff",
+                        "inverse-on-surface": "#9c9ca2",
+                        "tertiary-fixed-dim": "#d0bfee",
+                        "on-error-container": "#6e0a12",
+                        "on-tertiary-container": "#50426a",
+                        "outline": "#777b84",
+                        "primary-container": "#b1cafb",
+                        "secondary-dim": "#4a5365",
+                        "outline-variant": "#aeb2bc",
+                        "surface-container-high": "#e6e8f1",
+                        "on-primary-container": "#28426b",
+                        "tertiary": "#665881",
+                        "on-primary-fixed": "#112e56",
+                        "on-primary": "#f8f8ff",
+                        "on-primary-fixed-variant": "#324b75",
+                        "inverse-primary": "#b1cafb",
+                        "error": "#a83836",
+                        "primary-dim": "#3a537d",
+                        "tertiary-fixed": "#deccfd",
+                        "tertiary-container": "#deccfd",
+                        "on-error": "#fff7f6",
+                        "surface-variant": "#dfe2ed",
+                        "on-tertiary-fixed": "#3c2f56",
+                        "surface-dim": "#d7dae4",
+                        "secondary-fixed-dim": "#ccd4ea",
+                        "primary": "#465f8a",
+                        "tertiary-dim": "#5a4c75",
+                        "on-background": "#2f323b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<nav class="bg-surface border-b border-surface-variant w-full sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+<!-- Brand -->
+<div class="flex-shrink-0 flex items-center">
+<span class="font-display font-bold text-2xl text-primary">Spring Wisdom</span>
+</div>
+<!-- Search (Hidden per requirements but following component structure) -->
+<div class="hidden"></div>
+<!-- Navigation Links -->
+<div class="hidden md:flex flex-grow justify-center space-x-8">
+<a class="text-on-surface hover:text-primary transition-colors font-body font-medium text-sm pt-1 pb-1" href="#">
+                    My Space
+                </a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center space-x-4">
+<button class="text-secondary hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<div class="relative group">
+<button aria-expanded="false" aria-haspopup="true" class="h-8 w-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm overflow-hidden border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface" id="user-menu-button">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="A professional headshot of a person wearing a smart casual outfit, set against a clean, neutral background. The lighting is soft and flattering, highlighting a friendly and approachable expression. The overall style is modern and corporate, fitting seamlessly within a professional application interface relying on sophisticated slate and blue-gray tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhBJe160K4kzjo-gFfuvqFbEZ6WIZVHRKHxEPYgGnbiphZQ-bMMItGKq230M5JkaGGKz3UN__rRxCygVdlo1VGhwb6zcI4Bsz5FcupzHVCejNYyKjTXWD6zXDIrEcOal06ZwAGEWnJwIDgt_g96yHUjCjimAVM8aiE4FZ2w5A2F9NfsAcEq_wqdTBri6DoScaHQpE81MV8wvah-80r1Juv5U87qNqXGb-gf_1yaMQ4EeXsOmR8yFNvBsXtXn6oGZ_VD9OojnW9Pr30"/>
+</button>
+<div aria-labelledby="user-menu-button" aria-orientation="vertical" class="absolute right-0 mt-2 w-56 origin-top-right rounded-lg bg-surface-container-lowest py-1 shadow-lg ring-1 ring-outline-variant focus:outline-none hidden group-focus-within:block group-hover:block z-50" role="menu" tabindex="-1">
+<a class="flex items-center px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors" href="#" role="menuitem">
+<span class="material-symbols-outlined mr-3 text-secondary text-lg">person</span>
+            Account Information
+        </a>
+<a class="flex items-center px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors" href="#" role="menuitem">
+<span class="material-symbols-outlined mr-3 text-secondary text-lg">lock</span>
+            Change Password
+        </a>
+<a class="flex items-center px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors" href="#" role="menuitem">
+<span class="material-symbols-outlined mr-3 text-secondary text-lg">settings</span>
+            Settings
+        </a>
+<hr class="my-1 border-surface-variant"/>
+<a class="flex items-center px-4 py-2 text-sm text-error hover:bg-error-container/10 transition-colors" href="#" role="menuitem">
+<span class="material-symbols-outlined mr-3 text-error text-lg">logout</span>
+            Logout
+        </a>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col">
+<!-- Section 1: About Us / Mission -->
+<section class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex-grow w-full block">
+<div class="lg:float-right lg:w-1/2 w-full lg:ml-12 mb-10 aspect-video rounded-2xl overflow-hidden shadow-xl border border-surface-variant">
+<img alt="A modern library or archive highlighting structured knowledge preservation" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo_meJRUt0Pd6mgt_Rkk_ONeVbOv0HvUCHGb68Q_ni6mYFpX5BPj1LNTM_qjSdf0Hljgzc6LpUxkG4xSo6EzRWQ3LCPI4ELBkndi_ixvKHhIOykBYdwj7PSFLtjuZOjduBYzWkyd7n94b09VCvJLkRnATmO0FmFYaGwbve4O2vhvQ_8EznWBfqTilCbfq4LnSnoZ1chz2ZwCnSTOEo9ZBcR-wlW0QMHJSkkVoXT-igV-__FNn-p-Q3LFDHbqByo40zoJ-Hq0AFhxuj"/>
+</div>
+<h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl text-on-surface tracking-tight leading-tight mb-8 pt-4">
+                Preserving Knowledge for the Digital Age.
+            </h1>
+<p class="font-body text-xl sm:text-2xl text-on-surface-variant leading-relaxed mb-6">
+                Spring Wisdom is dedicated to the meticulous curation and safeguarding of human insight. We believe that true wisdom transcends generations and platforms.
+            </p>
+<p class="font-body text-lg sm:text-xl text-secondary leading-relaxed mb-6">
+                Our philosophy centers on clarity, accessibility, and the enduring value of structured thought in an era of fleeting information.
+            </p>
+<div class="clear-both"></div>
+</section>
+<!-- Section 2: Announcements & News Feed -->
+<section class="bg-surface-container-low border-t border-surface-variant py-16 px-4 sm:px-6 lg:px-8 w-full mt-auto flex-shrink-0">
+<div class="max-w-7xl mx-auto">
+<div class="flex items-center justify-between mb-10 border-b border-surface-variant pb-4">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">rss_feed</span>
+<h2 class="font-display font-bold text-3xl text-on-surface">Administrative Updates</h2>
+</div>
+<a class="text-primary hover:text-primary-dim font-medium text-sm flex items-center transition-colors group" href="#">
+                    Read all updates
+                    <span class="material-symbols-outlined ml-1 text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Update Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant p-6 hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
+<time class="font-body text-xs text-secondary mb-3 font-semibold uppercase tracking-wider">October 24, 2024</time>
+<h3 class="font-headline font-semibold text-xl text-on-surface mb-3 line-clamp-2">System Archival Process Enhanced</h3>
+<p class="font-body text-base text-on-surface-variant leading-relaxed flex-grow">
+                        We have successfully implemented the new redundancy protocols across all primary storage nodes. This ensures faster retrieval times and increased durability for historical records dating back to our inception.
+                    </p>
+<a class="mt-4 text-primary font-medium text-sm inline-flex items-center hover:underline" href="#">Read full article</a>
+</article>
+<!-- Update Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant p-6 hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
+<time class="font-body text-xs text-secondary mb-3 font-semibold uppercase tracking-wider">October 18, 2024</time>
+<h3 class="font-headline font-semibold text-xl text-on-surface mb-3 line-clamp-2">New Learning Footprint Metrics</h3>
+<p class="font-body text-base text-on-surface-variant leading-relaxed flex-grow">
+                        The analytics dashboard has been updated to include granular tracking of your interactions with foundational texts. These new metrics aim to provide deeper insights into your personal knowledge consumption patterns.
+                    </p>
+<a class="mt-4 text-primary font-medium text-sm inline-flex items-center hover:underline" href="#">Read full article</a>
+</article>
+<!-- Update Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant p-6 hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
+<time class="font-body text-xs text-secondary mb-3 font-semibold uppercase tracking-wider">October 10, 2024</time>
+<h3 class="font-headline font-semibold text-xl text-on-surface mb-3 line-clamp-2">Scheduled Maintenance Window</h3>
+<p class="font-body text-base text-on-surface-variant leading-relaxed flex-grow">
+                        Please be advised that the indexing service will be temporarily unavailable this coming Sunday between 02:00 and 04:00 UTC as we upgrade the core search algorithms. Read access to existing content will remain uninterrupted.
+                    </p>
+<a class="mt-4 text-primary font-medium text-sm inline-flex items-center hover:underline" href="#">Read full article</a>
+</article>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-surface-variant">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center">
+<div class="mb-4 md:mb-0">
+<span class="font-headline font-bold text-sm text-on-surface">Spring Wisdom</span>
+<p class="font-body text-sm text-secondary mt-1">© 2024 Spring Wisdom. Preserving knowledge for the digital age.</p>
+</div>
+<div class="flex flex-wrap justify-center space-x-6">
+<a class="font-body text-sm text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-sm text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-sm text-secondary hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-body text-sm text-secondary hover:text-primary transition-colors" href="#">Archive</a>
+</div>
+</div>
+</footer>
+</body></html>

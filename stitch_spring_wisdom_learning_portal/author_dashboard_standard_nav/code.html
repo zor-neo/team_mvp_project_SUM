@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spring Wisdom - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-primary-fixed": "#112e56",
+                "tertiary": "#665881",
+                "on-secondary": "#f8f8ff",
+                "surface-tint": "#465f8a",
+                "on-secondary-fixed-variant": "#535c6e",
+                "primary-fixed": "#b1cafb",
+                "on-surface": "#2f323b",
+                "inverse-primary": "#b1cafb",
+                "on-secondary-fixed": "#374051",
+                "on-tertiary-fixed-variant": "#594c74",
+                "on-primary": "#f8f8ff",
+                "surface-bright": "#f9f9fe",
+                "secondary-dim": "#4a5365",
+                "tertiary-fixed": "#deccfd",
+                "surface-container-highest": "#dfe2ed",
+                "inverse-surface": "#0c0e12",
+                "on-error-container": "#6e0a12",
+                "secondary-fixed-dim": "#ccd4ea",
+                "surface-container-high": "#e6e8f1",
+                "outline": "#777b84",
+                "on-error": "#fff7f6",
+                "on-secondary-container": "#495264",
+                "primary-dim": "#3a537d",
+                "on-tertiary": "#fef7ff",
+                "error-container": "#fa746f",
+                "tertiary-container": "#deccfd",
+                "surface": "#f9f9fe",
+                "on-primary-fixed-variant": "#324b75",
+                "tertiary-dim": "#5a4c75",
+                "surface-container": "#ecedf6",
+                "surface-variant": "#dfe2ed",
+                "primary-container": "#b1cafb",
+                "secondary": "#565f71",
+                "error": "#a83836",
+                "surface-container-low": "#f2f3fb",
+                "tertiary-fixed-dim": "#d0bfee",
+                "secondary-container": "#dae2f8",
+                "primary-fixed-dim": "#a3bcec",
+                "on-surface-variant": "#5b5f68",
+                "on-primary-container": "#28426b",
+                "surface-container-lowest": "#ffffff",
+                "surface-dim": "#d7dae4",
+                "on-tertiary-container": "#50426a",
+                "inverse-on-surface": "#9c9ca2",
+                "on-background": "#2f323b",
+                "error-dim": "#67040d",
+                "background": "#f9f9fe",
+                "primary": "#465f8a",
+                "on-tertiary-fixed": "#3c2f56",
+                "secondary-fixed": "#dae2f8",
+                "outline-variant": "#aeb2bc"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+            "gutter": "24px",
+            "section-padding-md": "48px",
+            "component-padding": "30px"
+        },
+        "fontFamily": {
+                "headline": [
+                        "Inter"
+                ],
+                "display": [
+                        "Inter"
+                ],
+                "body": [
+                        "Inter"
+                ],
+                "label": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-surface'); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body text-base selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant docked w-full top-0 z-50">
+<div class="max-w-[1140px] mx-auto px-6 flex justify-between items-center h-20 transition-all duration-300 ease-in-out"><div class="flex items-center space-x-12">
+<a class="font-display text-3xl font-bold text-primary whitespace-nowrap" href="#">Spring Wisdom</a>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">Home</a>
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">Track</a>
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">Message</a>
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">Browse</a>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-on-surface hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="relative group">
+<button class="text-on-surface hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<div class="absolute right-0 mt-2 w-56 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-lg py-2 z-[60] hidden group-hover:block">
+<button class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors flex items-center font-body font-semibold">
+<span class="material-symbols-outlined mr-3 text-[20px]">person</span>
+      Account Information
+    </button>
+<button class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors flex items-center font-body font-semibold">
+<span class="material-symbols-outlined mr-3 text-[20px]">lock</span>
+      Change Password
+    </button>
+<button class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors flex items-center font-body font-semibold">
+<span class="material-symbols-outlined mr-3 text-[20px]">settings</span>
+      Settings
+    </button>
+<div class="border-t border-outline-variant my-1"></div>
+<button class="w-full text-left px-4 py-2 text-sm text-error hover:bg-surface-container-high transition-colors flex items-center font-body font-semibold">
+<span class="material-symbols-outlined mr-3 text-[20px]">logout</span>
+      Logout
+    </button>
+</div>
+</div>
+</div></div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow max-w-[1140px] mx-auto px-6 w-full py-12">
+<!-- Header -->
+<header class="mb-12 border-b border-outline-variant pb-6 flex justify-between items-end">
+<div>
+<h2 class="font-display text-4xl font-bold text-on-surface">Author Dashboard</h2>
+<p class="font-body text-lg text-on-surface-variant mt-2">Manage your digital preservation contributions.</p>
+</div>
+<img alt="Admin Avatar" class="w-12 h-12 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz9u8ghx9-s_YdkwGPmuLfwoMMuTNMFm5a_pe_gQvTJSNXWWsvrYpFo2CK9neaOqSR3aR5Y3KRszkRGY5lCJ6J2hxIi9EdbDkjZcb_HCcVuWvmqFbVtKallJ4eItWyVq4_ebzwfhZKNjk5fXDOSRiyVZ6bKVZFo46ZIkHZzlm8Fr12bgqeLZj0zRXaEH5hIQHfbLPGhT1opZv8_E0dD3JEag8sIg97AiKVydHHOul0wgQNyo064JJljs-VKmzYy4n2kjHYCFhLBHoM"/>
+</header>
+<!-- Upload Form -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-component-padding mb-section-padding-md shadow-[0_4px_6px_rgba(0,0,0,0.02)]">
+<div class="flex items-center mb-6">
+<span class="material-symbols-outlined text-primary mr-3 text-3xl">upload_file</span>
+<h3 class="font-headline text-3xl font-semibold text-on-surface">Upload New Content</h3>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-2" for="title">Content Title</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-3 font-body text-base text-on-surface focus:outline-none focus:border-primary focus:ring-0 transition-colors" id="title" placeholder="Enter title..." type="text"/>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-2" for="category">Category</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-3 font-body text-base text-on-surface focus:outline-none focus:border-primary focus:ring-0 transition-colors appearance-none" id="category">
+<option>Historical Archives</option>
+<option>Philosophical Texts</option>
+<option>Scientific Journals</option>
+<option>Literature Collections</option>
+</select>
+</div>
+</div><div class="mt-6">
+<label class="block font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-2">Attach Document</label>
+<div class="relative flex items-center">
+<div class="flex-1 flex items-center bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-3 font-body text-base text-on-surface-variant">
+<span class="material-symbols-outlined text-primary mr-2">upload_file</span>
+<span>Choose a file or drag and drop</span>
+<input accept=".pdf,.txt,.docx" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+</div>
+</div>
+<p class="mt-2 font-body text-sm text-on-surface-variant">Supports PDF, TXT, DOCX</p>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-2" for="content">Content Body</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-3 font-body text-base text-on-surface focus:outline-none focus:border-primary focus:ring-0 transition-colors" id="content" placeholder="Draft your content here..." rows="6"></textarea>
+</div>
+<div class="flex justify-end pt-4 border-t border-outline-variant">
+<button class="bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-DEFAULT hover:bg-surface-container-high transition-colors mr-4" type="button">Cancel</button>
+<button class="bg-primary text-on-primary font-label text-xs uppercase tracking-wider font-semibold py-3 px-8 rounded-DEFAULT hover:opacity-90 transition-opacity" type="submit">Create Content</button>
+</div>
+</form>
+</section>
+<!-- My Collections Gallery -->
+<section>
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-3xl font-semibold text-on-surface flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">collections_bookmark</span>
+                    My Collections
+                </h3>
+<div class="flex space-x-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2"><span class="material-symbols-outlined">sort</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-[0_4px_6px_rgba(0,0,0,0.02)] overflow-hidden group">
+<div class="h-48 bg-surface-container-high relative">
+<img alt="A close-up of antique, leather-bound books stacked on a wooden desk." class="w-full h-full object-cover opacity-80 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyLHeg3BVb2zlhswmpSj2O_gK7t3fbApsje8034sOXLjJbCtM8MVZe8uN38UyX2w8t1DjNrOUzwZ3VTOvEoEcVo-qqgpu5mzeoIrfRCnz_ck0myleuVnXJn5eSRZuOyjxIviuDLYVcooXzsmrbNSkuAa772uxxZCgZm8mCHAaGRrz6Ezo7mORO3SFAq_EXfQAL9Vwrkbes_FBAlgQTKxBAypgy4TSuJNsauCxfB9PP8ocJs16FJnFyLZeXtlYWp9LpMSfoJ2cjyHxN"/>
+<span class="absolute top-4 left-4 bg-primary/10 text-primary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full border border-primary/20">Historical Archives</span>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline text-xl font-semibold text-on-surface mb-2">The Fall of Rome: New Perspectives</h4>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-1 line-clamp-3">An updated analysis incorporating recent archeological findings from the Mediterranean basin, challenging traditional narratives of the empire's decline.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant mt-auto">
+<span class="font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant">Edited 2d ago</span>
+<div class="flex space-x-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">edit</span> Update</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">delete</span> Delete</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-[0_4px_6px_rgba(0,0,0,0.02)] overflow-hidden group">
+<div class="h-48 bg-surface-container-high relative">
+<img alt="A minimalist composition of a fountain pen resting on a crisp sheet of parchment paper." class="w-full h-full object-cover opacity-80 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZRq8ZXbxwqCAufF9hVVoFNdv_SZQNFSV7ZU_YttbdmkFRL8bklitihB9fZRXj7-lUyi1DE56duhiBBgTQrLlAci-R-OQWm7i0528hANmSr5QsI__epQnW4sTobLHEbLfZLMCayvo46QlEw423aF1fGlIHohUW_DD3wv-tpfF8pzUYifjv89lqQ5viscFsNSKvPoal4i6Btnuf7iZr9prUzm2oXBjKWeV0u59htrO7QypcCCKtNpPrbqh0vSrF0YDy7crPKgd3c02P"/>
+<span class="absolute top-4 left-4 bg-secondary/10 text-secondary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full border border-secondary/20">Literature Collections</span>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline text-xl font-semibold text-on-surface mb-2">Modernist Poetry Review</h4>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-1 line-clamp-3">A curated selection of early 20th-century poems, highlighting the shift away from romanticism towards fragmented, structural forms.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant mt-auto">
+<span class="font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant">Edited 1w ago</span>
+<div class="flex space-x-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">edit</span> Update</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">delete</span> Delete</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col shadow-[0_4px_6px_rgba(0,0,0,0.02)] overflow-hidden group">
+<div class="h-48 bg-surface-container-high relative">
+<img alt="An abstract macro shot of layered paper textures." class="w-full h-full object-cover opacity-80 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcptb_sdqXw6bDyAMPBWqg9-Y4VJpkE6Y-Z7RhQyo6dQqnGrYvkqabNy4ILev620AEaKmzf3gaVZYTFVqHcvX8ywwy5MJJev0Wnh-DOQLrVPZCAIFa64SL7uZyyP3Kd5Tg7VTsdlsHC77L41jTFfOaMok4eUEH0lPQnkGD88vOmYd0VXOUftFvEr0UbZYeD_MnNzbBiyGDgbLU1fBj_1BM_UnGwItWBIMVXVzX-wZehxHb9VvvfgM2L-l6qO0McyuCh353fL1oxWBc"/>
+<span class="absolute top-4 left-4 bg-primary/10 text-primary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full border border-primary/20">Philosophical Texts</span>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h4 class="font-headline text-xl font-semibold text-on-surface mb-2">Ethics in the Digital Age</h4>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-1 line-clamp-3">A foundational treatise exploring moral frameworks as they apply to emerging technologies, artificial intelligence, and digital privacy.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant mt-auto">
+<span class="font-label text-xs uppercase tracking-wider font-semibold text-on-surface-variant">Edited 2w ago</span>
+<div class="flex space-x-3">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">edit</span> Update</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors flex items-center font-label text-xs uppercase tracking-wider font-semibold"><span class="material-symbols-outlined text-[18px] mr-1">delete</span> Delete</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

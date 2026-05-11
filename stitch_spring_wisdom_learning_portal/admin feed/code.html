@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spring Wisdom - Updates</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#465f8a",
+                    "secondary": "#565f71",
+                    "inverse-surface": "#0c0e12",
+                    "on-tertiary-fixed-variant": "#594c74",
+                    "error-container": "#fa746f",
+                    "surface-dim": "#d7dae4",
+                    "secondary-fixed": "#dae2f8",
+                    "error": "#a83836",
+                    "on-background": "#2f323b",
+                    "on-surface-variant": "#5b5f68",
+                    "primary-fixed-dim": "#a3bcec",
+                    "secondary-container": "#dae2f8",
+                    "surface": "#f9f9fe",
+                    "surface-container-low": "#f2f3fb",
+                    "primary-fixed": "#b1cafb",
+                    "primary-container": "#b1cafb",
+                    "on-error": "#fff7f6",
+                    "on-tertiary-container": "#50426a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#324b75",
+                    "on-secondary-container": "#495264",
+                    "on-primary": "#f8f8ff",
+                    "tertiary-dim": "#5a4c75",
+                    "surface-bright": "#f9f9fe",
+                    "on-secondary-fixed-variant": "#535c6e",
+                    "surface-container-high": "#e6e8f1",
+                    "on-secondary": "#f8f8ff",
+                    "secondary-dim": "#4a5365",
+                    "primary-dim": "#3a537d",
+                    "surface-container-highest": "#dfe2ed",
+                    "inverse-on-surface": "#9c9ca2",
+                    "background": "#f9f9fe",
+                    "tertiary-fixed-dim": "#d0bfee",
+                    "on-tertiary-fixed": "#3c2f56",
+                    "inverse-primary": "#b1cafb",
+                    "outline-variant": "#aeb2bc",
+                    "secondary-fixed-dim": "#ccd4ea",
+                    "tertiary-container": "#deccfd",
+                    "primary": "#465f8a",
+                    "on-secondary-fixed": "#374051",
+                    "on-error-container": "#6e0a12",
+                    "on-primary-container": "#28426b",
+                    "surface-variant": "#dfe2ed",
+                    "on-primary-fixed": "#112e56",
+                    "on-surface": "#2f323b",
+                    "tertiary-fixed": "#deccfd",
+                    "tertiary": "#665881",
+                    "error-dim": "#67040d",
+                    "surface-container": "#ecedf6",
+                    "outline": "#777b84",
+                    "on-tertiary": "#fef7ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lora", "serif"],
+                    "display": ["Lora", "serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-inverse-surface border-b border-outline-variant w-full sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+<div class="flex items-center gap-6">
+<span class="font-display text-2xl font-bold text-primary">Spring Wisdom</span>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label font-medium text-sm" href="/">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label font-medium text-sm" href="#">My Space</a>
+</div>
+</div>
+<!-- Search Bar (on_left configuration) & Trailing Icons -->
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-on-surface placeholder-on-surface-variant w-48 transition-all" placeholder="Search..." type="text"/>
+</div>
+<button aria-label="Notifications" class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<div class="relative group">
+<button aria-label="account_circle" class="flex items-center justify-center overflow-hidden rounded-full border border-outline-variant w-9 h-9">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a person, used as a generic user profile avatar. The person has a neutral, friendly expression. The lighting is soft and natural, typical of corporate or modern tech platform avatars." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY8sj-MC7VUsYq7Qw9c55_j21ADRTGoC781mMeONIo46NJQnP_MVdGRc96vGIcMGDHkhTBxNrkaVnasUv-ENyiPUgDss7pZaffqE8hGIx4WUcFfAQQoiKGMfynkVcGi4P9v5uyCqIdwzVzNmXHC29lUqgZC5XHZMb0X-fU5x_6KdTfU0FnCpnG98G9BkOKXTas_OP-hc26yJK4Dl2ngouqGP6-39YW1PW7KvhXEg2b4Wm9-lXDZUk7NscgPQIRzY4UaGpT3O_wXsPO"/>
+</button>
+<!-- Dropdown Menu -->
+<div class="absolute right-0 mt-2 w-56 bg-surface border border-outline-variant rounded-xl shadow-lg py-2 hidden group-hover:block z-50">
+<a class="flex items-center gap-3 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors font-label" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+      Account Information
+    </a>
+<a class="flex items-center gap-3 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors font-label" href="#">
+<span class="material-symbols-outlined text-lg">lock</span>
+      Change Password
+    </a>
+<a class="flex items-center gap-3 px-4 py-2 text-sm text-on-surface hover:bg-surface-container-high transition-colors font-label" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+      Settings
+    </a>
+<div class="h-px bg-outline-variant my-1 mx-2"></div>
+<a class="flex items-center gap-3 px-4 py-2 text-sm text-error hover:bg-error-container/10 transition-colors font-label" href="#">
+<span class="material-symbols-outlined text-lg">logout</span>
+      Logout
+    </a>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- Main Content (Magazine Layout) -->
+<main class="w-full max-w-4xl mx-auto">
+<header class="mb-10 border-b-2 border-primary pb-6">
+<h1 class="font-headline text-4xl md:text-5xl font-bold text-on-surface mb-4">Latest Updates</h1>
+<p class="text-lg text-on-surface-variant font-body">Insights, system metrics, and architectural decisions shaping the future of Spring Wisdom.</p>
+</header>
+<div class="space-y-16">
+<!-- Featured Post -->
+<article class="group">
+<div class="relative w-full aspect-[16/9] mb-6 overflow-hidden rounded-lg bg-surface-container-high">
+<img alt="Data visualization dashboard showing metrics and graphs." class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A high-tech digital dashboard displaying complex data visualizations, charts, and graphs. The aesthetic is modern and sleek, using a blue and slate color palette typical of enterprise software. The lighting is crisp and the composition suggests advanced analytics and system monitoring." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqA7cpki14EcxCXHDC_pU_daNjA4HQl_JzXgUYKbGfWHyrateD94iQqk9Np_YfXFiBvjoWKXHsVGwln7b9Qh7vAEBhN2k03BqEQxw350EOnioRHHy1PHup1IXBklgprkQBOAp-K4Raot2WBSXRSz0YMoclFe01IlySaz6J15DtBV9ZecbGIdEesA0YYr0qbYoMyktTMoUT4I_kyEFDB5AFumE-pXZZO9Q-RxwjEWHH_EOeZIgi6zGIGEwUXBALWZ4slfd4AHvH6dXP"/>
+</div>
+<div class="flex items-center gap-4 mb-3">
+<span class="bg-primary-container text-on-primary-container text-xs font-bold px-2.5 py-1 rounded-sm uppercase tracking-wider font-label">Metrics</span>
+<time class="text-sm text-on-surface-variant font-label">October 24, 2024</time>
+</div>
+<h2 class="font-headline text-3xl font-bold text-on-surface mb-4 group-hover:text-primary transition-colors leading-tight">
+<a href="#">Q3 Performance Review: Achieving Sub-100ms Query Latency</a>
+</h2>
+<p class="text-base text-on-surface-variant font-body leading-relaxed mb-6">
+                        Our engineering team has completely overhauled the primary indexing strategy for the central wisdom repository. This quarter's deep dive explores the technical hurdles overcome to ensure instantaneous retrieval of archived knowledge, significantly improving user experience across the board.
+                    </p>
+<a class="inline-flex items-center font-label font-semibold text-primary hover:text-primary-dim transition-colors group/link" href="#">
+                        Read full report 
+                        <span class="material-symbols-outlined text-sm ml-1 transform transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</article>
+<!-- Standard Post List -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-outline-variant">
+<article class="flex flex-col">
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold text-tertiary uppercase tracking-wider font-label">System</span>
+<time class="text-xs text-on-surface-variant font-label">October 18, 2024</time>
+</div>
+<h3 class="font-headline text-xl font-bold text-on-surface mb-3 hover:text-primary transition-colors leading-snug">
+<a href="#">Deprecation Notice: Legacy Authentication Flows</a>
+</h3>
+<p class="text-sm text-on-surface-variant font-body leading-relaxed mb-4 flex-1">
+                            To maintain our rigorous security standards, we are phasing out older authentication protocols. Please review the migration guide to ensure uninterrupted access.
+                        </p>
+<a class="font-label text-sm font-semibold text-primary hover:underline" href="#">Read more</a>
+</article>
+<article class="flex flex-col">
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold text-secondary uppercase tracking-wider font-label">Security</span>
+<time class="text-xs text-on-surface-variant font-label">October 12, 2024</time>
+</div>
+<h3 class="font-headline text-xl font-bold text-on-surface mb-3 hover:text-primary transition-colors leading-snug">
+<a href="#">Implementing Zero-Trust Architecture Across Services</a>
+</h3>
+<p class="text-sm text-on-surface-variant font-body leading-relaxed mb-4 flex-1">
+                            An overview of our transition to a zero-trust model, detailing the new identity verification steps implemented at every layer of the infrastructure.
+                        </p>
+<a class="font-label text-sm font-semibold text-primary hover:underline" href="#">Read more</a>
+</article>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant mt-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-headline text-lg font-bold text-on-surface">Spring Wisdom</span>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-sm text-on-surface-variant hover:text-primary transition-colors font-label" href="#">Privacy Policy</a>
+<a class="text-sm text-on-surface-variant hover:text-primary transition-colors font-label" href="#">Terms of Service</a>
+<a class="text-sm text-on-surface-variant hover:text-primary transition-colors font-label" href="#">Contact</a>
+<a class="text-sm text-on-surface-variant hover:text-primary transition-colors font-label" href="#">Archive</a>
+</div>
+<p class="text-sm text-on-surface-variant font-body text-center md:text-right">
+                © 2024 Spring Wisdom. Preserving knowledge for the digital age.
+            </p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spring Wisdom - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-high": "#e6e8f1",
+                "tertiary-fixed": "#deccfd",
+                "on-secondary": "#f8f8ff",
+                "tertiary": "#665881",
+                "on-secondary-container": "#495264",
+                "on-secondary-fixed": "#374051",
+                "inverse-primary": "#b1cafb",
+                "secondary-fixed-dim": "#ccd4ea",
+                "on-surface": "#2f323b",
+                "tertiary-dim": "#5a4c75",
+                "primary": "#465f8a",
+                "surface-container-highest": "#dfe2ed",
+                "on-tertiary-fixed-variant": "#594c74",
+                "on-tertiary": "#fef7ff",
+                "surface-container": "#ecedf6",
+                "background": "#f9f9fe",
+                "on-tertiary-container": "#50426a",
+                "on-tertiary-fixed": "#3c2f56",
+                "on-background": "#2f323b",
+                "primary-fixed-dim": "#a3bcec",
+                "on-primary-fixed": "#112e56",
+                "secondary-fixed": "#dae2f8",
+                "on-error": "#fff7f6",
+                "surface-variant": "#dfe2ed",
+                "on-primary-container": "#28426b",
+                "secondary": "#565f71",
+                "outline": "#777b84",
+                "secondary-container": "#dae2f8",
+                "tertiary-fixed-dim": "#d0bfee",
+                "inverse-surface": "#0c0e12",
+                "on-primary": "#f8f8ff",
+                "tertiary-container": "#deccfd",
+                "error-container": "#fa746f",
+                "primary-fixed": "#b1cafb",
+                "surface": "#f9f9fe",
+                "on-surface-variant": "#5b5f68",
+                "inverse-on-surface": "#9c9ca2",
+                "primary-container": "#b1cafb",
+                "on-error-container": "#6e0a12",
+                "error-dim": "#67040d",
+                "surface-dim": "#d7dae4",
+                "on-secondary-fixed-variant": "#535c6e",
+                "error": "#a83836",
+                "secondary-dim": "#4a5365",
+                "surface-container-lowest": "#ffffff",
+                "surface-bright": "#f9f9fe",
+                "primary-dim": "#3a537d",
+                "outline-variant": "#aeb2bc",
+                "surface-tint": "#465f8a",
+                "on-primary-fixed-variant": "#324b75",
+                "surface-container-low": "#f2f3fb"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {},
+        "fontFamily": {
+                "headline": [
+                        "Inter"
+                ],
+                "display": [
+                        "Inter"
+                ],
+                "body": [
+                        "Inter"
+                ],
+                "label": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-surface'); }
+        .ambient-shadow { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body text-base selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant docked w-full top-0 z-50">
+<div class="max-w-[1140px] mx-auto px-6 flex justify-between items-center h-20 transition-all duration-300 ease-in-out"><div class="flex items-center space-x-12">
+<a class="font-display text-3xl font-bold text-primary whitespace-nowrap" href="#">Spring Wisdom</a>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">About Us</a>
+<a class="text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold" href="#">Track</a>
+<div class="relative group">
+<button class="flex items-center text-on-surface dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-xl font-semibold focus:outline-none">
+    Categories
+    <span class="material-symbols-outlined ml-1 text-base">expand_more</span>
+</button>
+<div class="absolute left-0 mt-2 w-56 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
+<div class="py-2">
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Philosophy</a>
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Logic &amp; Reason</a>
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Historical Context</a>
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Daily Challenges</a>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-on-surface hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="relative group">
+<button class="text-on-surface hover:text-primary transition-colors flex items-center focus:outline-none">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<div class="absolute right-0 mt-2 w-56 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
+<div class="py-2">
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Account Information</a>
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Change Password</a>
+<a class="block px-4 py-2 text-base text-on-surface hover:bg-surface-container hover:text-primary transition-colors" href="#">Settings</a>
+<div class="border-t border-outline-variant my-1"></div>
+<a class="block px-4 py-2 text-base text-error hover:bg-error-container hover:text-on-error-container transition-colors" href="#">Logout</a>
+</div>
+</div>
+</div>
+</div></div>
+</header>
+<main class="flex-grow max-w-[1140px] mx-auto px-6 w-full py-12 space-y-20">
+<!-- Hero Section -->
+<section class="text-center max-w-3xl mx-auto py-12">
+<h1 class="font-display text-5xl font-bold text-on-surface mb-6 tracking-tight">Cultivate Your Mind.</h1>
+<p class="font-body text-lg text-on-surface-variant mb-8 leading-relaxed">Delve into a curated archive of timeless knowledge, structured for deep reading and genuine comprehension in a distraction-free environment.</p>
+<div class="flex justify-center items-center space-x-4"><div class="relative w-full max-w-2xl flex items-center">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline rounded-l-lg pl-12 pr-4 text-base font-body focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:italic h-[56px]" placeholder="Explore topics, eras, or disciplines..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-10 rounded-r-lg font-label text-xs uppercase tracking-wider font-semibold hover:bg-secondary transition-colors border border-primary whitespace-nowrap h-[56px] flex items-center justify-center">
+        Begin Search
+    </button>
+</div></div>
+</section>
+<!-- Featured Section (Deep Dive) -->
+<section>
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant pb-4">
+<h2 class="font-headline text-3xl font-semibold text-on-surface">Featured Deep Dive</h2>
+</div>
+<article class="bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden flex flex-col md:flex-row ambient-shadow hover:ambient-shadow transition-shadow">
+<div class="md:w-1/2 h-64 md:h-auto bg-surface-dim relative">
+<img alt="Featured Article Image" class="absolute inset-0 w-full h-full object-cover" data-alt="A macro photograph of an antique, leather-bound book slightly open, revealing yellowed pages with elegant serif typography. The lighting is warm and dramatic, casting long shadows across a dark wooden table, evoking a sense of historical significance and intellectual depth. The overall aesthetic aligns with a refined, traditional light-mode editorial style, using rich earthy tones and subtle contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeIYFSd-RFm_Qip5UYIisIbYQs3aon9nkLUplZkWIMKmVit65BB5zih2Lv-_GZX4hFrmnLDfJ6LRqOeCsABQqpp4DgFydO3xSko5nDHEAbq-UqhX_X4sp5pay5G5i5Mdz5u3zhKHFUo22g8mDHUsrsxhLwCa9m-_t8HObl-jtYbkVJhtjN3ZMGYlwfyfVSY5mEIQnlsZNZXauv37swWafD9BusmpU-PHKqQC3_CSryC6C5oFsv_GqznJ1Y1jCbU63dCzT1t2566ptj"/>
+<div class="absolute top-4 left-4 bg-surface-container-lowest px-3 py-1 rounded-full text-secondary font-label text-xs uppercase tracking-wider font-semibold bg-opacity-90">Philosophy</div>
+<button class="absolute top-4 right-4 text-surface-container-lowest hover:text-primary transition-colors bg-on-surface bg-opacity-30 rounded-full p-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+<div class="md:w-1/2 p-8 flex flex-col justify-center">
+<div class="flex items-center space-x-4 text-on-surface-variant font-body text-sm mb-4">
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1">schedule</span> 15 min read</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[16px] mr-1">history</span> Preserved: Oct 2023</span>
+</div>
+<h3 class="font-headline text-3xl font-semibold text-on-surface mb-4">The Stoic Resilience in Modern Digital Ecosystems</h3>
+<p class="font-body text-base text-on-surface-variant mb-8 line-clamp-3">An examination of how ancient Stoic principles can be applied to manage the constant influx of information and maintain cognitive clarity in the 21st century. We explore Marcus Aurelius's meditations through the lens of modern attention economics.</p>
+<a class="text-primary font-label text-xs uppercase tracking-wider font-semibold hover:text-secondary transition-colors flex items-center w-max" href="#">
+                        Read Full Archive <span class="material-symbols-outlined ml-1 text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</section>
+<!-- Secondary Grid -->
+<section>
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant pb-4">
+<h2 class="font-headline text-2xl font-semibold text-on-surface">Curated Selections</h2>
+<a class="text-primary font-label text-xs uppercase tracking-wider font-semibold hover:text-secondary transition-colors" href="#">View All Archive</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 flex flex-col h-full ambient-shadow hover:ambient-shadow transition-shadow relative">
+<button class="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+<div class="mb-4">
+<span class="inline-block bg-primary bg-opacity-10 text-primary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full mb-3">Logic &amp; Reason</span>
+<h3 class="font-headline text-2xl font-semibold text-on-surface mb-2 leading-tight">Navigating Fallacies in Public Discourse</h3>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-grow line-clamp-3">A practical guide to identifying and deconstructing common logical fallacies presented in contemporary media and debate formats.</p>
+<div class="flex items-center justify-between text-on-surface-variant font-label text-xs uppercase tracking-wider font-semibold pt-4 border-t border-outline-variant">
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">schedule</span> 8 min</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">history</span> Sep 2023</span>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 flex flex-col h-full ambient-shadow hover:ambient-shadow transition-shadow relative">
+<button class="absolute top-6 right-6 text-primary transition-colors z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+<div class="mb-4">
+<span class="inline-block bg-secondary bg-opacity-10 text-secondary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full mb-3">Daily Challenges</span>
+<h3 class="font-headline text-2xl font-semibold text-on-surface mb-2 leading-tight">The Architecture of Habit Formation</h3>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-grow line-clamp-3">Understanding the structural components of routine building, focusing on sustainable systems rather than sheer willpower.</p>
+<div class="flex items-center justify-between text-on-surface-variant font-label text-xs uppercase tracking-wider font-semibold pt-4 border-t border-outline-variant">
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">schedule</span> 12 min</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">history</span> Aug 2023</span>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-container-lowest rounded-lg border border-outline-variant p-6 flex flex-col h-full ambient-shadow hover:ambient-shadow transition-shadow relative">
+<button class="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+<div class="mb-4">
+<span class="inline-block bg-primary bg-opacity-10 text-primary font-label text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full mb-3">Historical Context</span>
+<h3 class="font-headline text-2xl font-semibold text-on-surface mb-2 leading-tight">The Evolution of the Scientific Method</h3>
+</div>
+<p class="font-body text-sm text-on-surface-variant mb-6 flex-grow line-clamp-3">Tracing the epistemological shifts from Aristotelian observation to modern empirical rigor across centuries of thought.</p>
+<div class="flex items-center justify-between text-on-surface-variant font-label text-xs uppercase tracking-wider font-semibold pt-4 border-t border-outline-variant">
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">schedule</span> 22 min</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">history</span> Jul 2023</span>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-inverse-surface w-full border-t border-outline-variant mt-20">
+<div class="max-w-[1140px] mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center opacity-80 hover:opacity-100 transition-opacity">
+<div class="mb-4 md:mb-0">
+<span class="font-headline text-2xl font-semibold text-on-surface">Spring Wisdom</span>
+<p class="font-body text-sm text-on-surface-variant dark:text-outline-variant mt-2">© 2024 Spring Wisdom. Preserving knowledge for the digital age.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Archive</a>
+</nav>
+</div>
+</footer>
+</body></html>

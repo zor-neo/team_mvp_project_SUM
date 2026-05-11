@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spring Wisdom - Knowledge for the Digital Age</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-high": "#e6e8f1",
+                "tertiary-fixed": "#deccfd",
+                "on-secondary": "#f8f8ff",
+                "tertiary": "#665881",
+                "on-secondary-container": "#495264",
+                "on-secondary-fixed": "#374051",
+                "inverse-primary": "#b1cafb",
+                "secondary-fixed-dim": "#ccd4ea",
+                "on-surface": "#2f323b",
+                "tertiary-dim": "#5a4c75",
+                "primary": "#465f8a",
+                "surface-container-highest": "#dfe2ed",
+                "on-tertiary-fixed-variant": "#594c74",
+                "on-tertiary": "#fef7ff",
+                "surface-container": "#ecedf6",
+                "background": "#f9f9fe",
+                "on-tertiary-container": "#50426a",
+                "on-tertiary-fixed": "#3c2f56",
+                "on-background": "#2f323b",
+                "primary-fixed-dim": "#a3bcec",
+                "on-primary-fixed": "#112e56",
+                "secondary-fixed": "#dae2f8",
+                "on-error": "#fff7f6",
+                "surface-variant": "#dfe2ed",
+                "on-primary-container": "#28426b",
+                "secondary": "#565f71",
+                "outline": "#777b84",
+                "secondary-container": "#dae2f8",
+                "tertiary-fixed-dim": "#d0bfee",
+                "inverse-surface": "#0c0e12",
+                "on-primary": "#f8f8ff",
+                "tertiary-container": "#deccfd",
+                "error-container": "#fa746f",
+                "primary-fixed": "#b1cafb",
+                "surface": "#f9f9fe",
+                "on-surface-variant": "#5b5f68",
+                "inverse-on-surface": "#9c9ca2",
+                "primary-container": "#b1cafb",
+                "on-error-container": "#6e0a12",
+                "error-dim": "#67040d",
+                "surface-dim": "#d7dae4",
+                "on-secondary-fixed-variant": "#535c6e",
+                "error": "#a83836",
+                "secondary-dim": "#4a5365",
+                "surface-container-lowest": "#ffffff",
+                "surface-bright": "#f9f9fe",
+                "primary-dim": "#3a537d",
+                "outline-variant": "#aeb2bc",
+                "surface-tint": "#465f8a",
+                "on-primary-fixed-variant": "#324b75",
+                "surface-container-low": "#f2f3fb"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {},
+        "fontFamily": {
+                "headline": [
+                        "Inter"
+                ],
+                "display": [
+                        "Inter"
+                ],
+                "body": [
+                        "Inter"
+                ],
+                "label": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {}
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ambient-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+    </style>
+<script defer="" src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script></head>
+<body class="bg-background text-on-background font-body text-base antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline-variant w-full top-0 z-50">
+<div class="max-w-6xl mx-auto px-6 flex justify-between items-center h-20 transition-all duration-300 ease-in-out">
+<!-- Brand -->
+<div class="flex items-center gap-4">
+<span class="font-display text-4xl font-bold text-primary tracking-tight">Spring Wisdom</span>
+</div>
+<!-- Navigation Links (Web) -->
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-on-background dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-2xl font-semibold" href="#">About Us</a>
+<a class="text-on-background dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-2xl font-semibold" href="#">Track</a>
+<div @click.away="open = false" class="relative" x-data="{ open: false }">
+<button @click="open = !open" class="flex items-center gap-1 text-on-background dark:text-inverse-on-surface hover:text-primary transition-colors font-headline text-2xl font-semibold focus:outline-none">
+<span>Categories</span>
+<span :class="open ? 'rotate-180' : ''" class="material-symbols-outlined text-lg transition-transform duration-200">expand_more</span>
+</button>
+<div class="absolute left-0 mt-2 w-56 bg-surface border border-outline-variant rounded-lg shadow-lg z-50 overflow-hidden" x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-end="transform opacity-100 scale-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:leave="transition ease-in duration-75" x-transition:leave-end="transform opacity-0 scale-95" x-transition:leave-start="transform opacity-100 scale-100">
+<div class="py-2">
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Philosophy</a>
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Logic &amp; Reason</a>
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Historical Context</a>
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Scientific Method</a>
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Daily Challenges</a>
+<a class="block px-4 py-3 font-body text-base text-on-background hover:bg-surface-container-low hover:text-primary transition-colors" href="#">Archival Deep Dives</a>
+</div>
+</div>
+</div>
+</nav>
+<!-- Trailing Icons -->
+<div class="flex items-center space-x-4">
+<button aria-label="Notifications" class="text-primary dark:text-inverse-primary hover:text-primary dark:hover:text-inverse-primary transition-colors p-2 rounded-full hover:bg-surface-container-low">
+<span aria-hidden="true" class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+<button aria-label="Account" class="text-primary dark:text-inverse-primary hover:text-primary dark:hover:text-inverse-primary transition-colors p-2 rounded-full hover:bg-surface-container-low">
+<span aria-hidden="true" class="material-symbols-outlined text-2xl">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow max-w-6xl mx-auto px-6 py-20 w-full flex flex-col md:flex-row gap-12 items-center justify-center">
+<!-- Hero Section (Left Column) -->
+<section class="flex-1 space-y-8 max-w-2xl">
+<h1 class="font-display text-5xl font-bold text-on-background leading-tight">
+                Knowledge for the <span class="text-primary">Digital Age</span>.
+            </h1>
+<p class="font-body text-lg text-on-surface-variant">
+                Preserving the nuance of deep learning in a fast-paced world. Join our community to access curated, high-fidelity intellectual resources designed for focused consumption.
+            </p>
+<div class="pt-4 flex gap-4">
+<button class="bg-primary text-on-primary font-body text-base py-3 px-8 rounded hover:bg-primary-container transition-colors ambient-shadow">
+                    Explore the Archive
+                </button>
+<button class="bg-transparent border border-outline text-on-background font-body text-base py-3 px-8 rounded hover:bg-surface-container-low transition-colors">
+                    Learn More
+                </button>
+</div>
+<!-- Bento Decorative Element -->
+<div class="grid grid-cols-2 gap-4 pt-8 opacity-80">
+<div class="bg-surface border border-outline-variant rounded-lg p-6 ambient-shadow">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<h3 class="font-headline text-2xl font-semibold mb-1">Curated Volumes</h3>
+<p class="font-body text-sm text-on-surface-variant">Expertly selected texts for profound understanding.</p>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-6 ambient-shadow">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h3 class="font-headline text-2xl font-semibold mb-1">Verified Sources</h3>
+<p class="font-body text-sm text-on-surface-variant">Ensuring academic and historical integrity.</p>
+</div>
+</div>
+</section>
+<!-- Auth Form (Right Column) -->
+<section class="w-full max-w-md bg-surface border border-outline-variant rounded-xl p-8 ambient-shadow relative overflow-hidden">
+<!-- Decorative accent line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="text-center mb-8">
+<h2 class="font-headline text-3xl font-semibold text-on-background mb-2">Access Portal</h2>
+<p class="font-body text-sm text-on-surface-variant">Sign in or register to manage your learning footprint.</p>
+</div>
+<!-- Tab Toggle (Stylized) -->
+<div class="flex border-b border-outline-variant mb-6">
+<button class="flex-1 pb-3 font-label text-xs font-semibold uppercase tracking-wide text-primary border-b-2 border-primary text-center transition-colors">
+                    LOGIN
+                </button>
+<button class="flex-1 pb-3 font-label text-xs font-semibold uppercase tracking-wide text-on-surface-variant hover:text-on-background text-center transition-colors">
+                    REGISTER
+                </button>
+</div>
+<form class="space-y-5">
+<div>
+<label class="block font-label text-xs font-semibold uppercase tracking-wide text-on-background mb-1" for="email">Email Address</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">mail</span>
+</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded text-on-background font-body text-base focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-shadow" id="email" placeholder="scholar@springwisdom.edu" required="" type="email"/>
+</div>
+</div>
+<div>
+<label class="block font-label text-xs font-semibold uppercase tracking-wide text-on-background mb-1" for="password">Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">lock</span>
+</span>
+<input class="w-full pl-10 pr-10 py-3 bg-surface border border-outline-variant rounded text-on-background font-body text-base focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-shadow" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-on-surface-variant hover:text-on-background" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+<!-- Client-side validation visual feedback (Simulated) -->
+<div class="flex gap-1 mt-2">
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-primary rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-variant rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-variant rounded-full"></div>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 text-right">Medium strength</p>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-4 h-4 rounded-sm border-outline text-primary focus:ring-primary bg-surface" type="checkbox"/>
+<span class="font-body text-sm text-on-surface-variant">Remember me</span>
+</label>
+<a class="font-body text-sm text-primary hover:underline" href="#">Forgot password?</a>
+</div>
+<button class="w-full bg-primary text-on-primary font-body text-base py-3 rounded hover:bg-primary-container transition-colors mt-6 ambient-shadow" type="submit">
+                    Enter Archive
+                </button>
+</form>
+<div class="mt-6 text-center">
+<span class="font-body text-sm text-on-surface-variant">By continuing, you agree to our <a class="text-primary hover:underline" href="#">Terms of Service</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.</span>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background dark:bg-inverse-surface border-t border-outline-variant dark:border-outline-variant w-full mt-auto">
+<div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center opacity-80 hover:opacity-100 transition-opacity">
+<div class="mb-4 md:mb-0">
+<span class="font-headline text-2xl font-bold text-on-background tracking-tight">Spring Wisdom</span>
+<p class="font-body text-sm text-on-surface-variant dark:text-outline-variant mt-1">© 2024 Spring Wisdom. Preserving knowledge for the digital age.</p>
+</div>
+<nav class="flex space-x-6">
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-body text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Archive</a>
+</nav>
+</div>
+</footer>
+</body></html>
