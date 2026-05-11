@@ -1,6 +1,29 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
+
+if (is_post()) {
+    require_csrf();
+    $action = $_POST['action'] ?? '';
+    $messageId = (int) ($_POST['message_id'] ?? 0);
+    if ($action === 'mark_read') {
+        update_message_status($messageId, 'read');
+        flash('Message marked as read.');
+    } elseif ($action === 'resolve') {
+        update_message_status($messageId, 'resolved');
+        flash('Message resolved.');
+    } elseif ($action === 'reply') {
+        $reply = trim($_POST['reply_text'] ?? '');
+        if ($reply !== '') {
+            reply_to_message($messageId, $reply);
+            flash('Reply saved and message resolved.');
+        } else {
+            flash('Reply text is required.', 'danger');
+        }
+    }
+    redirect_to('admin-messages.php');
+}
+
 $messages = all_messages();
 $pageTitle = 'Messages';
 $active = 'admin-messages';
@@ -8,20 +31,69 @@ require __DIR__ . '/includes/header.php';
 require __DIR__ . '/includes/admin-sidebar.php';
 ?>
 <section class="container-lg py-5">
-    <h1 class="display-6 fw-bold mb-4">Reports and Messages</h1>
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-end mb-4">
+        <div>
+            <h1 class="display-6 fw-bold mb-1">Reports and Messages</h1>
+            <p class="sw-muted mb-0">Review user/admin messages, save replies, and resolve moderation communication.</p>
+        </div>
+        <span class="badge sw-badge"><?= e((string) count($messages)) ?> total</span>
+    </div>
     <div class="sw-panel">
+        <?php if (!$messages): ?>
+            <p class="sw-muted mb-0">No messages yet.</p>
+        <?php endif; ?>
         <?php foreach ($messages as $message): ?>
             <div class="border-bottom py-3">
                 <div class="d-flex justify-content-between gap-3">
                     <div>
                         <h2 class="h5 mb-1"><?= e($message['subject']) ?></h2>
-                        <p class="small sw-muted mb-0">From <?= e($message['sender_name']) ?> · <?= e($message['created_at']) ?></p>
+                        <p class="small sw-muted mb-1">From <?= e($message['sender_name']) ?> to <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e($message['created_at']) ?></p>
+                        <span class="badge sw-badge"><?= e($message['status']) ?></span>
+                        <?php if (!empty($message['content_title'])): ?>
+                            <span class="small sw-muted ms-2"><?= e($message['content_title']) ?></span>
+                        <?php endif; ?>
                     </div>
-                    <button class="btn btn-sm btn-outline-sw" data-bs-toggle="modal" data-bs-target="#message<?= e((string)$message['id']) ?>">View</button>
+                    <button class="btn btn-sm btn-outline-sw" data-bs-toggle="modal" data-bs-target="#message<?= e((string) $message['id']) ?>">View</button>
                 </div>
             </div>
-            <div class="modal fade" id="message<?= e((string)$message['id']) ?>" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><?= e($message['subject']) ?></h5><button class="btn-close" data-bs-dismiss="modal" type="button"></button></div><div class="modal-body"><p><?= e($message['body']) ?></p><textarea class="form-control" rows="3" placeholder="Type a short reply..."></textarea></div><div class="modal-footer"><button class="btn btn-sw-primary" data-bs-dismiss="modal">Mark Reply Drafted</button></div></div></div>
+            <div class="modal fade" id="message<?= e((string) $message['id']) ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><?= e($message['subject']) ?></h5>
+                            <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="small sw-muted mb-2">Status: <?= e($message['status']) ?></p>
+                            <div class="border rounded p-3 mb-3">
+                                <strong>Original message</strong>
+                                <p class="mb-0 mt-2"><?= nl2br(e($message['body'])) ?></p>
+                            </div>
+                            <?php if (!empty($message['reply_text'])): ?>
+                                <div class="border rounded p-3 mb-3">
+                                    <strong>Saved reply</strong>
+                                    <p class="mb-0 mt-2"><?= nl2br(e($message['reply_text'])) ?></p>
+                                </div>
+                            <?php endif; ?>
+                            <form id="replyForm<?= e((string) $message['id']) ?>" method="post">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="action" value="reply">
+                                <input type="hidden" name="message_id" value="<?= e((string) $message['id']) ?>">
+                                <label class="form-label">Reply / resolution note</label>
+                                <textarea class="form-control" name="reply_text" rows="4" required></textarea>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <form method="post" class="me-auto d-flex gap-2">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="message_id" value="<?= e((string) $message['id']) ?>">
+                                <button class="btn btn-outline-sw" name="action" value="mark_read">Mark Read</button>
+                                <button class="btn btn-outline-sw" name="action" value="resolve">Resolve</button>
+                            </form>
+                            <button class="btn btn-sw-primary" form="replyForm<?= e((string) $message['id']) ?>">Save Reply</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         <?php endforeach; ?>
     </div>

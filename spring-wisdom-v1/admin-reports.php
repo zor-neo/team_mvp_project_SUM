@@ -13,6 +13,19 @@ if (is_post()) {
         set_report_status((int) $_POST['report_id'], 'dismissed');
         flash('Report dismissed.');
     }
+    if ($action === 'message_author') {
+        $reportId = (int) ($_POST['report_id'] ?? 0);
+        $contentId = (int) ($_POST['content_id'] ?? 0);
+        $authorId = (int) ($_POST['author_id'] ?? 0);
+        $subject = trim($_POST['subject'] ?? '');
+        $body = trim($_POST['body'] ?? '');
+        if ($authorId > 0 && $subject !== '' && $body !== '') {
+            create_message((int) current_user()['id'], $authorId, $subject, $body, $reportId, $contentId);
+            flash('Message sent to author.');
+        } else {
+            flash('Message subject and body are required.', 'danger');
+        }
+    }
     redirect_to('admin-reports.php');
 }
 $reports = all_reports();
@@ -34,7 +47,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <p class="sw-muted"><?= e($report['reason_text']) ?></p>
                     <div class="d-flex flex-wrap gap-2">
                         <a class="btn btn-sm btn-outline-sw" href="<?= e(url_for('content.php?id=' . $report['content_id'] . '&review=report')) ?>">View Content</a>
-                        <button class="btn btn-sm btn-outline-sw">Message Author</button>
+                        <button class="btn btn-sm btn-outline-sw" data-bs-toggle="modal" data-bs-target="#messageAuthor<?= e((string) $report['id']) ?>">Message Author</button>
                         <form method="post" class="d-inline">
                             <?= csrf_field() ?>
                             <input type="hidden" name="action" value="dismiss">
@@ -49,6 +62,31 @@ require __DIR__ . '/includes/admin-sidebar.php';
                             <button class="btn btn-sm btn-danger">Hide Article</button>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div class="modal fade" id="messageAuthor<?= e((string) $report['id']) ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="post" class="modal-content">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="action" value="message_author">
+                        <input type="hidden" name="report_id" value="<?= e((string) $report['id']) ?>">
+                        <input type="hidden" name="content_id" value="<?= e((string) $report['content_id']) ?>">
+                        <input type="hidden" name="author_id" value="<?= e((string) ($report['author_id'] ?? 0)) ?>">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Message <?= e($report['author_name'] ?? 'Author') ?></h5>
+                            <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="form-label">Subject</label>
+                            <input class="form-control mb-3" name="subject" value="Report review: <?= e($report['content_title']) ?>" maxlength="160" required>
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" name="body" rows="5" required>Please review the report for "<?= e($report['content_title']) ?>". Admin noted: <?= e($report['reason_category']) ?>.</textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-sw" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-sw-primary">Send Message</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         <?php endforeach; ?>

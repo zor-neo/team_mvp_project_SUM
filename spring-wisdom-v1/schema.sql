@@ -58,8 +58,12 @@ create table messages (
   id bigserial primary key,
   sender_id bigint not null references users(id) on delete cascade,
   receiver_id bigint references users(id),
+  report_id bigint references reports(id) on delete set null,
+  content_id bigint references contents(id) on delete set null,
   subject text not null,
   body text not null,
   status text not null default 'new',
+  reply_text text,
+  replied_at timestamptz,
   created_at timestamptz not null default now()
 );

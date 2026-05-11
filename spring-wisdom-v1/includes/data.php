@@ -45,8 +45,8 @@ function seed_demo_data(): void
     ];
 
     $_SESSION['messages'] = [
-        ['id' => 1, 'sender_id' => 2, 'receiver_id' => 1, 'sender_name' => 'Maya Reader', 'subject' => 'Question about saved readings', 'body' => 'Can bookmarked readings be exported later?', 'status' => 'new', 'created_at' => '2026-05-09'],
-        ['id' => 2, 'sender_id' => 3, 'receiver_id' => 1, 'sender_name' => 'Jon Author', 'subject' => 'File review request', 'body' => 'Please review the attached source file for the Stoic reading.', 'status' => 'read', 'created_at' => '2026-05-10'],
+        ['id' => 1, 'sender_id' => 2, 'receiver_id' => 1, 'report_id' => null, 'content_id' => null, 'sender_name' => 'Maya Reader', 'receiver_name' => 'Admin Scholar', 'subject' => 'Question about saved readings', 'body' => 'Can bookmarked readings be exported later?', 'status' => 'new', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-09'],
+        ['id' => 2, 'sender_id' => 3, 'receiver_id' => 1, 'report_id' => 1, 'content_id' => 2, 'sender_name' => 'Jon Author', 'receiver_name' => 'Admin Scholar', 'subject' => 'File review request', 'body' => 'Please review the attached source file for the Stoic reading.', 'status' => 'read', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-10'],
     ];
 
     $_SESSION['demo_seeded'] = true;
@@ -317,9 +317,15 @@ function submit_report(int $contentId, int $userId, string $category, string $te
 function all_reports(): array
 {
     if (using_database()) {
-        return db()->query('select r.*, c.title as content_title, u.name as reporter_name from reports r join contents c on c.id = r.content_id join users u on u.id = r.user_id order by r.created_at desc')->fetchAll();
+        return db()->query('select r.*, c.title as content_title, c.author_id, au.name as author_name, u.name as reporter_name from reports r join contents c on c.id = r.content_id join users au on au.id = c.author_id join users u on u.id = r.user_id order by r.created_at desc')->fetchAll();
     }
-    return table_rows('reports');
+    return array_map(function ($report) {
+        $content = content_by_id((int) $report['content_id']);
+        $author = $content ? find_user_by_id((int) $content['author_id']) : null;
+        $report['author_id'] = $content['author_id'] ?? null;
+        $report['author_name'] = $author['name'] ?? 'Author';
+        return $report;
+    }, table_rows('reports'));
 }
 
 function set_report_status(int $id, string $status): void
@@ -389,9 +395,63 @@ function review_author_request(int $id, string $status, int $adminId): void
 function all_messages(): array
 {
     if (using_database()) {
-        return db()->query('select m.*, u.name as sender_name from messages m join users u on u.id = m.sender_id order by m.created_at desc')->fetchAll();
+        return db()->query('select m.*, s.name as sender_name, r.name as receiver_name, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id order by m.created_at desc')->fetchAll();
     }
     return table_rows('messages');
+}
+
+function create_message(int $senderId, ?int $receiverId, string $subject, string $body, ?int $reportId = null, ?int $contentId = null): void
+{
+    $subject = text_limit($subject, 160);
+    $body = text_limit($body, 2400);
+    if ($subject === '' || $body === '') {
+        return;
+    }
+    if (using_database()) {
+        $stmt = db()->prepare('insert into messages (sender_id, receiver_id, report_id, content_id, subject, body, status) values (:sender_id, :receiver_id, :report_id, :content_id, :subject, :body, :status)');
+        $stmt->execute(['sender_id' => $senderId, 'receiver_id' => $receiverId, 'report_id' => $reportId, 'content_id' => $contentId, 'subject' => $subject, 'body' => $body, 'status' => 'new']);
+        return;
+    }
+    $sender = find_user_by_id($senderId);
+    $receiver = $receiverId ? find_user_by_id($receiverId) : null;
+    $_SESSION['messages'][] = ['id' => next_id('messages'), 'sender_id' => $senderId, 'receiver_id' => $receiverId, 'report_id' => $reportId, 'content_id' => $contentId, 'sender_name' => $sender['name'] ?? 'User', 'receiver_name' => $receiver['name'] ?? 'Admin', 'subject' => $subject, 'body' => $body, 'status' => 'new', 'reply_text' => '', 'replied_at' => null, 'created_at' => date('Y-m-d')];
+}
+
+function update_message_status(int $id, string $status): void
+{
+    if (!in_array($status, ['new', 'read', 'resolved'], true)) {
+        return;
+    }
+    if (using_database()) {
+        $stmt = db()->prepare('update messages set status = :status where id = :id');
+        $stmt->execute(['status' => $status, 'id' => $id]);
+        return;
+    }
+    foreach ($_SESSION['messages'] as &$message) {
+        if ((int) $message['id'] === $id) {
+            $message['status'] = $status;
+        }
+    }
+}
+
+function reply_to_message(int $id, string $reply): void
+{
+    $reply = text_limit($reply, 2400);
+    if ($reply === '') {
+        return;
+    }
+    if (using_database()) {
+        $stmt = db()->prepare("update messages set reply_text = :reply, replied_at = now(), status = 'resolved' where id = :id");
+        $stmt->execute(['reply' => $reply, 'id' => $id]);
+        return;
+    }
+    foreach ($_SESSION['messages'] as &$message) {
+        if ((int) $message['id'] === $id) {
+            $message['reply_text'] = $reply;
+            $message['replied_at'] = date('Y-m-d');
+            $message['status'] = 'resolved';
+        }
+    }
 }
 
 function dashboard_counts(): array
