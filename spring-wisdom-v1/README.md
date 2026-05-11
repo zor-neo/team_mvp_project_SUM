@@ -2,6 +2,8 @@
 
 Plain PHP + Bootstrap learning / reading hub based on the concept UI.
 
+For production setup, see `DEPLOYMENT.md`. For environment variable names, see `.env.example`.
+
 ## Run Locally
 
 ```powershell
