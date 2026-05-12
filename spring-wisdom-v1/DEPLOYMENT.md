@@ -2,6 +2,8 @@
 
 Spring Wisdom V1 is a plain PHP + Bootstrap app. The recommended deployment target is a PHP-capable host with HTTPS enabled. Supabase provides Postgres and Storage.
 
+For zero-budget Render deployment, use `RENDER_DEPLOYMENT.md` and the Docker files in the repository root.
+
 ## 1. Prepare Supabase
 
 1. Create a Supabase project.
@@ -87,6 +89,7 @@ Before final submission, verify:
 ## 6. Hidden Gemini Seeder
 
 The seeder is not linked in app navigation.
+The `dev-ai-seed.php` route is intended for local/admin seeding workflow and is intentionally untracked in Git for deployment safety.
 
 After signing in as admin, open:
 
