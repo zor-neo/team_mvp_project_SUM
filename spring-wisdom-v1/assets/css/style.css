@@ -347,6 +347,25 @@ h1, h2, h3, h4, h5, h6 {
 
 .sw-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .article-body { font-size: 1.04rem; line-height: 1.75; }
+.article-table-wrap {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--sw-border);
+  border-radius: 8px;
+}
+.article-table {
+  min-width: 640px;
+  margin-bottom: 0;
+}
+.article-table th {
+  background: var(--sw-surface-soft);
+  font-weight: 700;
+}
+.article-table th,
+.article-table td {
+  padding: .85rem 1rem;
+  vertical-align: top;
+}
 .table > :not(caption) > * > * { background: transparent; }
 
 .metric-card strong { font-size: 1.75rem; letter-spacing: -0.03em; }

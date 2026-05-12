@@ -41,6 +41,126 @@ function e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function render_article_body(?string $body): string
+{
+    $lines = preg_split('/\R/', (string) $body);
+    if ($lines === false) {
+        return nl2br(e($body));
+    }
+
+    $html = '';
+    $plain = [];
+    $count = count($lines);
+
+    $flushPlain = function () use (&$html, &$plain): void {
+        if (!$plain) {
+            return;
+        }
+        $html .= nl2br(e(implode("\n", $plain))) . "\n";
+        $plain = [];
+    };
+
+    for ($i = 0; $i < $count; $i++) {
+        $line = $lines[$i];
+        $next = $lines[$i + 1] ?? '';
+        if (is_markdown_table_header($line, $next)) {
+            $flushPlain();
+            $rows = [$line];
+            $separator = $next;
+            $i += 2;
+            while ($i < $count && trim($lines[$i]) !== '' && str_contains($lines[$i], '|')) {
+                $rows[] = $lines[$i];
+                $i++;
+            }
+            $i--;
+            $html .= render_markdown_table($rows, $separator);
+            continue;
+        }
+        $plain[] = $line;
+    }
+
+    $flushPlain();
+    return $html;
+}
+
+function is_markdown_table_header(string $header, string $separator): bool
+{
+    return str_contains($header, '|') && is_markdown_table_separator($separator);
+}
+
+function is_markdown_table_separator(string $line): bool
+{
+    if (!str_contains($line, '|')) {
+        return false;
+    }
+
+    $cells = markdown_table_cells($line);
+    if (count($cells) < 2) {
+        return false;
+    }
+
+    foreach ($cells as $cell) {
+        if (!preg_match('/^:?-{3,}:?$/', str_replace(' ', '', $cell))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function markdown_table_cells(string $line): array
+{
+    $line = trim($line);
+    $line = trim($line, '|');
+    return array_map('trim', explode('|', $line));
+}
+
+function markdown_table_alignments(string $separator): array
+{
+    return array_map(function (string $cell): string {
+        $cell = str_replace(' ', '', $cell);
+        $starts = str_starts_with($cell, ':');
+        $ends = str_ends_with($cell, ':');
+        if ($starts && $ends) {
+            return 'center';
+        }
+        if ($ends) {
+            return 'end';
+        }
+        return 'start';
+    }, markdown_table_cells($separator));
+}
+
+function render_markdown_table(array $rows, string $separator): string
+{
+    $header = markdown_table_cells((string) array_shift($rows));
+    $alignments = markdown_table_alignments($separator);
+    $html = '<div class="article-table-wrap"><table class="table table-sm article-table"><thead><tr>';
+    foreach ($header as $index => $cell) {
+        $align = $alignments[$index] ?? 'start';
+        $html .= '<th scope="col" class="text-' . e($align) . '">' . render_markdown_inline($cell) . '</th>';
+    }
+    $html .= '</tr></thead><tbody>';
+
+    foreach ($rows as $row) {
+        $cells = markdown_table_cells((string) $row);
+        $html .= '<tr>';
+        for ($i = 0; $i < count($header); $i++) {
+            $align = $alignments[$i] ?? 'start';
+            $html .= '<td class="text-' . e($align) . '">' . render_markdown_inline($cells[$i] ?? '') . '</td>';
+        }
+        $html .= '</tr>';
+    }
+
+    return $html . '</tbody></table></div>';
+}
+
+function render_markdown_inline(string $value): string
+{
+    $escaped = e($value);
+    $escaped = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $escaped) ?? $escaped;
+    return preg_replace('/`([^`]+)`/', '<code>$1</code>', $escaped) ?? $escaped;
+}
+
 function friendly_time(?string $value): string
 {
     if (!$value) {

@@ -121,7 +121,7 @@ Return ONLY a valid JSON array. Each object must have exactly:
 - "title": concise title
 - "category": "{$category}"
 - "summary": one sentence, max 32 words
-- "body": educational reading text with no markdown headings and no citations invented as facts
+- "body": educational reading text with no markdown headings and no citations invented as facts. Use Markdown pipe tables only when a comparison genuinely helps; if using a table, include a valid separator row such as | --- | --- | --- |
 
 Do not include code fences, commentary, or extra keys.
 PROMPT;

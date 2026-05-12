@@ -61,7 +61,7 @@ require __DIR__ . '/includes/header.php';
                         </a>
                     </div>
                 <?php endif; ?>
-                <div class="article-body mt-4"><?= nl2br(e($content['body'])) ?></div>
+                <div class="article-body mt-4"><?= render_article_body($content['body']) ?></div>
                 <div class="d-flex flex-wrap gap-2 mt-5">
                     <?php if ($isReportReview): ?>
                         <a class="btn btn-outline-sw" href="<?= e(url_for('admin-reports.php')) ?>"><i class="bi bi-arrow-left"></i> Back to Reports</a>
