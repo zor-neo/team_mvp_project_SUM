@@ -1,0 +1,24 @@
+services:
+  - type: web
+    runtime: docker
+    name: spring-wisdom
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SUPABASE_STORAGE_BUCKET
+        value: content-files
+      - key: SUPABASE_DB_DSN
+        sync: false
+      - key: SUPABASE_DB_USER
+        sync: false
+      - key: SUPABASE_DB_PASSWORD
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
