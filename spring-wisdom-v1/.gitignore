@@ -1,3 +1,4 @@
 .env
 uploads/
 dev-ai-seed.php
+*.log

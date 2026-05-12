@@ -18,9 +18,13 @@
 body {
   background: var(--sw-bg);
   color: var(--sw-text);
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Inter, "Noto Sans Myanmar", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 0.97rem;
   line-height: 1.58;
+}
+
+.mm-text {
+  font-family: "Noto Sans Myanmar", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 a { color: var(--sw-primary); text-decoration: none; }

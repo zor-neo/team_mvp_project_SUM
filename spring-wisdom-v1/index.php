@@ -33,9 +33,10 @@ require __DIR__ . '/includes/header.php';
     <div class="container-lg">
         <div class="row align-items-center g-5">
             <div class="col-lg-7">
-                <span class="badge sw-badge mb-3">Learning / Reading Hub</span>
-                <h1 class="display-4 fw-bold mb-4">Knowledge for the <span class="text-primary">Digital Age</span>.</h1>
-                <p class="lead sw-muted mb-4">Browse curated learning content, preserve thoughtful writing, and manage reports through a calm academic portal.</p>
+                <span class="badge sw-badge mb-3">Learning Hub</span>
+                <h1 class="display-4 fw-bold mb-4">Knowledge is the only way out of this <span class="text-primary">Dark Age</span>.</h1>
+                <p class="lead sw-muted mb-4"><span class="mm-text fw-bold">ဤအမှောင်ခေတ်မှ လွတ်မြောက်ရာ တခုတည်းသောလမ်းစမှာ "ဉာဏ်ပညာ" သာဖြစ်သည်။</span>
+<br><br> Browse curated learning content, preserve thoughtful writing, and manage reports through a calm academic portal.</p>
                 <div class="row g-3 mt-4">
                     <div class="col-md-6">
                         <div class="sw-panel h-100">
