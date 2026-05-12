@@ -1,0 +1,12 @@
+Options -Indexes
+
+<FilesMatch "^\.|(\.(env|sql|md|log|ini|conf|bak|dist|ya?ml)$)|^(composer\.(json|lock)|package(-lock)?\.json|yarn\.lock|pnpm-lock\.yaml|Spring Wisdom\.code-workspace)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule (^|/)\. - [F,L]
+    RewriteRule ^uploads(/|$) - [F,L,NC]
+    RewriteRule \.(env|sql|md|log|ini|conf|bak|dist|ya?ml)$ - [F,L,NC]
+</IfModule>

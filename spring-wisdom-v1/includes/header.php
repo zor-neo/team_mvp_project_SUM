@@ -50,15 +50,27 @@ $isAuditing = $isAdminAccount && $effectiveRole !== 'admin';
                         <li class="nav-item"><a class="nav-link <?= $active === 'author-analytics' ? 'active' : '' ?>" href="<?= e(url_for('author-analytics.php')) ?>">Analytics</a></li>
                     <?php endif; ?>
                     <?php if ($isAdminAccount && $effectiveRole !== 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="<?= e(url_for('role-switch.php?role=admin')) ?>">Admin</a></li>
+                        <li class="nav-item">
+                            <form method="post" action="<?= e(url_for('role-switch.php')) ?>">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="role" value="admin">
+                                <button class="nav-link border-0 bg-transparent" type="submit">Admin</button>
+                            </form>
+                        </li>
                     <?php endif; ?>
                     <?php if ($isAdminAccount): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle <?= $active === 'role-switch' ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown">Role Switch</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="<?= e(url_for('role-switch.php?role=admin')) ?>">Sign in as Admin</a></li>
-                                <li><a class="dropdown-item" href="<?= e(url_for('role-switch.php?role=author')) ?>">Sign in as Author</a></li>
-                                <li><a class="dropdown-item" href="<?= e(url_for('role-switch.php?role=user')) ?>">Sign in as User</a></li>
+                                <?php foreach (['admin' => 'Sign in as Admin', 'author' => 'Sign in as Author', 'user' => 'Sign in as User'] as $roleValue => $roleLabel): ?>
+                                    <li>
+                                        <form method="post" action="<?= e(url_for('role-switch.php')) ?>">
+                                            <?= csrf_field() ?>
+                                            <input type="hidden" name="role" value="<?= e($roleValue) ?>">
+                                            <button class="dropdown-item" type="submit"><?= e($roleLabel) ?></button>
+                                        </form>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
                     <?php endif; ?>

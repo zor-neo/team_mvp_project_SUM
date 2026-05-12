@@ -12,6 +12,8 @@ For zero-budget Render deployment, use `RENDER_DEPLOYMENT.md` and the Docker fil
 4. Create a Storage bucket named `content-files`.
 5. Keep the bucket private for source content files.
 
+For an existing database created before Resource Management, also run `resource-management-migration.sql` once after deployment.
+
 ## 2. Seed Admin Account
 
 Run this after `schema.sql`:
@@ -68,8 +70,10 @@ For local testing:
 
 ```powershell
 cd "C:\Users\kaung\Desktop\Spring Wisdom\spring-wisdom-v1"
-php -S localhost:8080
+php -S localhost:8080 router.php
 ```
+
+The router is required for local PHP testing because the built-in server does not read `.htaccess`; it blocks direct requests for dotfiles, SQL files, Markdown files, logs, and other repository/config artifacts.
 
 ## 5. Production Checks
 
@@ -94,7 +98,7 @@ The `dev-ai-seed.php` route is intended for local/admin seeding workflow and is 
 After signing in as admin, open:
 
 ```text
-/dev-ai-seed.php?key=YOUR_DEV_AI_SEED_KEY
+/dev-ai-seed.php
 ```
 
 Use it only for temporary archive seeding. Remove `DEV_AI_SEED_KEY` from production when it is no longer needed.

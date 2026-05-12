@@ -112,6 +112,9 @@ function avatar_url(?array $user): string
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
             return $path;
         }
+        if (str_starts_with(str_replace('\\', '/', $path), 'uploads/profiles/') && !empty($user['id'])) {
+            return url_for('profile-photo.php?id=' . (int) $user['id']);
+        }
         return url_for($path);
     }
     return url_for('assets/images/default-avatar.svg');

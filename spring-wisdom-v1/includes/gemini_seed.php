@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/data.php';
 
-const AI_SEED_CATEGORIES = ['Philosophy', 'Logic & Reason', 'Scientific Method', 'Historical Archives', 'Daily Challenges'];
-
 function ai_seed_categories(): array
 {
-    return AI_SEED_CATEGORIES;
+    return allowed_content_categories();
 }
 
 function ai_seed_clamp_count(int $count): int

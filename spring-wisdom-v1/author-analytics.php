@@ -53,7 +53,7 @@ require __DIR__ . '/includes/header.php';
     <?php endif; ?>
 </section>
 <?php if ($totalContents > 0): ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="<?= e(url_for('assets/vendor/chart.umd.min.js')) ?>"></script>
 <script>
 const swChartColors = ['#465f8a', '#b1cafb', '#665881', '#565f71', '#a3bcec', '#d0bfee'];
 new Chart(document.getElementById('authorCategoryChart'), {

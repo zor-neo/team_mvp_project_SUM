@@ -19,6 +19,7 @@ Render's free web services can sleep after idle time, so the first request after
 - `../render.yaml` defines the Render Blueprint.
 - `../docker/start-apache.sh` binds Apache to Render's `PORT`.
 - `../docker/apache-security.conf` disables directory listing and blocks dotfiles, Markdown, SQL, and env-style files from direct web access.
+- `router.php` provides the same sensitive-file block when running PHP's local built-in server.
 - `../docker/opcache.ini` enables production PHP bytecode caching.
 - `../docker/uploads.ini` sets practical upload limits for source files.
 - `../.dockerignore` keeps `.env`, logs, Git data, and design artifacts out of the image.

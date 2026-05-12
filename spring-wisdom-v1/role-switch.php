@@ -8,7 +8,12 @@ if (!is_admin_account()) {
     redirect_to('home.php');
 }
 
-$role = $_GET['role'] ?? 'admin';
+if (!is_post()) {
+    redirect_to('admin-dashboard.php');
+}
+
+require_csrf();
+$role = $_POST['role'] ?? 'admin';
 
 if ($role === 'admin') {
     unset($_SESSION['audit_role']);

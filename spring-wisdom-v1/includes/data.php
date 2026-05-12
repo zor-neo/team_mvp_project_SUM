@@ -44,6 +44,12 @@ function seed_demo_data(): void
         ['id' => 3, 'admin_id' => 1, 'title' => 'Scheduled Maintenance Window', 'summary' => 'A sample feed item for announcements and operational notices.', 'body' => 'Spring Wisdom can publish admin notices to both the home page and the dedicated updates page.', 'created_at' => '2026-05-10'],
     ];
 
+    $_SESSION['content_categories'] = array_map(
+        fn($name, $index) => ['id' => $index + 1, 'name' => $name, 'description' => '', 'is_active' => true, 'sort_order' => ($index + 1) * 10, 'created_at' => '2026-05-01'],
+        default_content_category_names(),
+        array_keys(default_content_category_names())
+    );
+
     $_SESSION['messages'] = [
         ['id' => 1, 'sender_id' => 2, 'receiver_id' => 1, 'report_id' => null, 'content_id' => null, 'sender_name' => 'Maya Reader', 'receiver_name' => 'Admin Scholar', 'subject' => 'Question about saved readings', 'body' => 'Can bookmarked readings be exported later?', 'status' => 'new', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-09'],
         ['id' => 2, 'sender_id' => 3, 'receiver_id' => 1, 'report_id' => 1, 'content_id' => 2, 'sender_name' => 'Jon Author', 'receiver_name' => 'Admin Scholar', 'subject' => 'File review request', 'body' => 'Please review the attached source file for the Stoic reading.', 'status' => 'read', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-10'],
@@ -334,6 +340,127 @@ function set_content_status(int $id, string $status): void
         }
     }
     clear_app_cache();
+}
+
+function all_content_categories(bool $includeInactive = false): array
+{
+    if (using_database()) {
+        $where = $includeInactive ? '' : ' where is_active = true';
+        return db()->query("select * from content_categories{$where} order by sort_order, name")->fetchAll();
+    }
+    return array_values(array_filter(table_rows('content_categories'), fn($category) => $includeInactive || !empty($category['is_active'])));
+}
+
+function content_category_names(bool $includeInactive = false): array
+{
+    return array_values(array_map(fn($category) => (string) $category['name'], all_content_categories($includeInactive)));
+}
+
+function find_content_category_by_name(string $name): ?array
+{
+    $name = trim($name);
+    if ($name === '') {
+        return null;
+    }
+    if (using_database()) {
+        $stmt = db()->prepare('select * from content_categories where lower(name) = lower(:name) limit 1');
+        $stmt->execute(['name' => $name]);
+        return $stmt->fetch() ?: null;
+    }
+    foreach (table_rows('content_categories') as $category) {
+        if (strcasecmp((string) $category['name'], $name) === 0) {
+            return $category;
+        }
+    }
+    return null;
+}
+
+function create_content_category(string $name, string $description = ''): bool
+{
+    $name = text_limit($name, 80);
+    $description = text_limit($description, 260);
+    if ($name === '' || find_content_category_by_name($name)) {
+        return false;
+    }
+    if (using_database()) {
+        $nextSort = (int) db()->query('select coalesce(max(sort_order), 0) + 10 from content_categories')->fetchColumn();
+        $stmt = db()->prepare('insert into content_categories (name, description, sort_order) values (:name, :description, :sort_order)');
+        $created = $stmt->execute(['name' => $name, 'description' => $description, 'sort_order' => $nextSort]);
+        clear_app_cache();
+        return $created;
+    }
+    $id = next_id('content_categories');
+    $_SESSION['content_categories'][] = [
+        'id' => $id,
+        'name' => $name,
+        'description' => $description,
+        'is_active' => true,
+        'sort_order' => $id * 10,
+        'created_at' => date('Y-m-d'),
+    ];
+    clear_app_cache();
+    return true;
+}
+
+function update_content_category(int $id, string $name, string $description, bool $isActive): bool
+{
+    $name = text_limit($name, 80);
+    $description = text_limit($description, 260);
+    if ($id <= 0 || $name === '') {
+        return false;
+    }
+    $existing = find_content_category_by_name($name);
+    if ($existing && (int) $existing['id'] !== $id) {
+        return false;
+    }
+    $current = null;
+    foreach (all_content_categories(true) as $category) {
+        if ((int) $category['id'] === $id) {
+            $current = $category;
+            break;
+        }
+    }
+    if (!$current) {
+        return false;
+    }
+
+    if (using_database()) {
+        try {
+            db()->beginTransaction();
+            $stmt = db()->prepare('update content_categories set name = :name, description = :description, is_active = :is_active, updated_at = now() where id = :id');
+            $updated = $stmt->execute(['id' => $id, 'name' => $name, 'description' => $description, 'is_active' => $isActive]);
+            if ($updated && strcasecmp((string) $current['name'], $name) !== 0) {
+                $contentStmt = db()->prepare('update contents set category = :new_name, updated_at = now() where lower(category) = lower(:old_name)');
+                $contentStmt->execute(['new_name' => $name, 'old_name' => $current['name']]);
+            }
+            db()->commit();
+            clear_app_cache();
+            return $updated;
+        } catch (Throwable $error) {
+            if (db()->inTransaction()) {
+                db()->rollBack();
+            }
+            return false;
+        }
+    }
+    foreach ($_SESSION['content_categories'] as &$category) {
+        if ((int) $category['id'] === $id) {
+            $oldName = (string) $category['name'];
+            $category['name'] = $name;
+            $category['description'] = $description;
+            $category['is_active'] = $isActive;
+            if (strcasecmp($oldName, $name) !== 0) {
+                foreach ($_SESSION['contents'] as &$content) {
+                    if (strcasecmp((string) $content['category'], $oldName) === 0) {
+                        $content['category'] = $name;
+                    }
+                }
+            }
+            clear_app_cache();
+            return true;
+        }
+    }
+    return false;
 }
 
 function all_feeds(?int $limit = null, int $offset = 0): array
@@ -634,11 +761,15 @@ function contents_for_author(int $authorId, bool $includeHidden = true): array
 
 function content_categories(bool $includeHidden = false): array
 {
+    $categories = content_category_names();
     if (using_database()) {
         $where = $includeHidden ? '' : " where status = 'published'";
-        return db()->query("select distinct category from contents{$where} order by category")->fetchAll(PDO::FETCH_COLUMN);
+        $contentCategories = db()->query("select distinct category from contents{$where} order by category")->fetchAll(PDO::FETCH_COLUMN);
+        $categories = array_values(array_unique(array_merge($categories, $contentCategories)));
+        sort($categories);
+        return $categories;
     }
-    $categories = array_values(array_unique(array_map(fn($content) => $content['category'], all_contents($includeHidden))));
+    $categories = array_values(array_unique(array_merge($categories, array_map(fn($content) => $content['category'], all_contents($includeHidden)))));
     sort($categories);
     return $categories;
 }
@@ -804,9 +935,18 @@ function text_limit(string $value, int $maxLength): string
     return trim(substr($value, 0, $maxLength));
 }
 
-function allowed_content_categories(): array
+function default_content_category_names(): array
 {
     return ['Historical Archives', 'Philosophy', 'Logic & Reason', 'Scientific Method', 'Literature Collections', 'Daily Challenges'];
+}
+
+function allowed_content_categories(): array
+{
+    if (!using_database() && empty($_SESSION['demo_seed_version'])) {
+        return default_content_category_names();
+    }
+    $categories = content_category_names();
+    return $categories ?: default_content_category_names();
 }
 
 function normalize_content_data(array $data): array

@@ -16,7 +16,7 @@ Then run:
 
 ```powershell
 cd "C:\Users\kaung\Desktop\Spring Wisdom\spring-wisdom-v1"
-php -S localhost:8080
+php -S localhost:8080 router.php
 ```
 
 Demo accounts:
@@ -69,7 +69,7 @@ GEMINI_MODEL=gemini-2.5-flash
 After signing in as admin:
 
 ```text
-http://localhost:8080/dev-ai-seed.php?key=choose-your-local-secret
+http://localhost:8080/dev-ai-seed.php
 ```
 
 Remove `DEV_AI_SEED_KEY` from hosted production when the seeder is no longer needed.

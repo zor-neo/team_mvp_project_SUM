@@ -4,6 +4,7 @@ $adminItems = [
     ['key' => 'admin', 'label' => 'Overview', 'icon' => 'speedometer2', 'href' => 'admin-dashboard.php'],
     ['key' => 'admin-users', 'label' => 'User Accounts', 'icon' => 'people', 'href' => 'admin-users.php'],
     ['key' => 'admin-authors', 'label' => 'Author Accounts', 'icon' => 'person-badge', 'href' => 'admin-authors.php'],
+    ['key' => 'admin-resources', 'label' => 'Resource Management', 'icon' => 'collection', 'href' => 'admin-resource-management.php'],
     ['key' => 'admin-reports', 'label' => 'Reports', 'icon' => 'flag', 'href' => 'admin-reports.php'],
     ['key' => 'admin-messages', 'label' => 'Messages', 'icon' => 'envelope', 'href' => 'admin-messages.php'],
     ['key' => 'admin-requests', 'label' => 'Author Requests', 'icon' => 'person-plus', 'href' => 'admin-author-requests.php'],
@@ -31,4 +32,3 @@ $adminItems = [
             </div>
         </aside>
         <div class="col-lg-9 admin-content">
-

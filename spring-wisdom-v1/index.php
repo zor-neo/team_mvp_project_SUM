@@ -15,8 +15,19 @@ if (is_post()) {
     require_csrf();
     $mode = $_POST['mode'] ?? 'login';
     if ($mode === 'register') {
-        $created = create_user(trim($_POST['name'] ?? ''), trim($_POST['email'] ?? ''), $_POST['password'] ?? '');
-        flash($created ? 'Registration complete. Please sign in.' : 'That email is already registered.', $created ? 'success' : 'warning');
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $validPassword = strlen($password) >= 8 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password);
+
+        if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            flash('Enter a valid name and email address.', 'danger');
+        } elseif (!$validPassword) {
+            flash('Password must be at least 8 characters and include uppercase, lowercase, and a number.', 'danger');
+        } else {
+            $created = create_user($name, $email, $password);
+            flash($created ? 'Registration complete. Please sign in.' : 'That email is already registered.', $created ? 'success' : 'warning');
+        }
     } else {
         if (attempt_login(trim($_POST['email'] ?? ''), $_POST['password'] ?? '')) {
             redirect_to(after_login_path(current_user()));
@@ -36,7 +47,8 @@ require __DIR__ . '/includes/header.php';
                 <span class="badge sw-badge mb-3">Learning Hub</span>
                 <h1 class="display-4 fw-bold mb-4">Knowledge is the only way out of this <span class="text-primary">Dark Age</span>.</h1>
                 <p class="lead sw-muted mb-4"><span class="mm-text fw-bold">ဤအမှောင်ခေတ်မှ လွတ်မြောက်ရာ တခုတည်းသောလမ်းစမှာ "ဉာဏ်ပညာ" သာဖြစ်သည်။</span>
-<br><br> Browse curated learning content, preserve thoughtful writing, and manage reports through a calm academic portal.</p>
+                    <br><br> Browse curated learning content, preserve thoughtful writing, and manage reports through a calm academic portal.
+                </p>
                 <div class="row g-3 mt-4">
                     <div class="col-md-6">
                         <div class="sw-panel h-100">
@@ -90,7 +102,11 @@ require __DIR__ . '/includes/header.php';
                                 <input type="hidden" name="mode" value="register">
                                 <div class="mb-3"><label class="form-label">Name</label><input class="form-control" name="name" required></div>
                                 <div class="mb-3"><label class="form-label">Email</label><input class="form-control" name="email" type="email" required></div>
-                                <div class="mb-3"><label class="form-label">Password</label><input class="form-control" name="password" type="password" minlength="6" required></div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input class="form-control" name="password" type="password" minlength="8" required>
+                                    <div class="form-text">Minimum 8 characters with uppercase, lowercase, and a number.</div>
+                                </div>
                                 <button class="btn btn-sw-primary w-100" type="submit">Create User Account</button>
                                 <p class="small sw-muted mt-3 mb-0">New accounts start as normal users. Admin approval is required for author status.</p>
                             </form>

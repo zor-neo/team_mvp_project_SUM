@@ -16,6 +16,7 @@ function db(): ?PDO
     $dsn = getenv('SUPABASE_DB_DSN') ?: '';
     $user = getenv('SUPABASE_DB_USER') ?: '';
     $password = getenv('SUPABASE_DB_PASSWORD') ?: '';
+    $timeout = max(1, (int) (getenv('DB_CONNECT_TIMEOUT') ?: 5));
 
     if ($dsn === '') {
         if (is_production()) {
@@ -28,6 +29,7 @@ function db(): ?PDO
         $pdo = new PDO($dsn, $user, $password, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_TIMEOUT => $timeout,
         ]);
         return $pdo;
     } catch (Throwable $error) {

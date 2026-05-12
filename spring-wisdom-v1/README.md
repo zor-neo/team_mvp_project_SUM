@@ -10,7 +10,7 @@ Local `.env` values are loaded automatically by the app. Real server environment
 
 ```powershell
 cd "C:\Users\kaung\Desktop\Spring Wisdom\spring-wisdom-v1"
-php -S localhost:8080
+php -S localhost:8080 router.php
 ```
 
 Open `http://localhost:8080`.
@@ -38,7 +38,7 @@ $env:SUPABASE_DB_PASSWORD="YOUR_DATABASE_PASSWORD"
 $env:SUPABASE_URL="https://YOUR_PROJECT.supabase.co"
 $env:SUPABASE_SERVICE_ROLE_KEY="YOUR_SERVICE_ROLE_KEY"
 $env:SUPABASE_STORAGE_BUCKET="content-files"
-php -S localhost:8080
+php -S localhost:8080 router.php
 ```
 
 For local demo mode, leave `APP_ENV` unset or set it to `local`. In production mode, Spring Wisdom requires Supabase DB configuration and will not silently fall back to session demo data.
@@ -70,7 +70,7 @@ $env:GEMINI_MODEL="gemini-2.5-flash"
 Sign in as admin, then open:
 
 ```text
-http://localhost:8080/dev-ai-seed.php?key=choose-a-local-secret
+http://localhost:8080/dev-ai-seed.php
 ```
 
 Generated items are published directly into the archive under the selected author account.

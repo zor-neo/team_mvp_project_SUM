@@ -5,6 +5,7 @@
 !**/.env.example
 **/node_modules
 **/vendor
+**/uploads
 **/*.log
 **/.DS_Store
 stitch_spring_wisdom_learning_portal/

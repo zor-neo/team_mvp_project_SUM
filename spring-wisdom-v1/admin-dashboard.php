@@ -50,11 +50,16 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <div class="row g-4">
                         <div class="col-lg-5">
                             <h3 class="h6 fw-bold">Categories Pie Chart</h3>
-                            <canvas id="siteCategoryChart" height="230"></canvas>
+                            <div id="siteCategoryLegend" class="sw-chart-legend"></div>
+                            <div class="sw-chart-box">
+                                <canvas id="siteCategoryChart"></canvas>
+                            </div>
                         </div>
                         <div class="col-lg-7">
                             <h3 class="h6 fw-bold">Posting Frequency</h3>
-                            <canvas id="siteFrequencyChart" height="230"></canvas>
+                            <div class="sw-chart-box">
+                                <canvas id="siteFrequencyChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 <?php else: ?>
@@ -103,14 +108,40 @@ require __DIR__ . '/includes/admin-sidebar.php';
     </div>
 </section>
 <?php if ($analytics['total'] > 0): ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="<?= e(url_for('assets/vendor/chart.umd.min.js')) ?>"></script>
 <script>
 const siteChartColors = ['#465f8a', '#b1cafb', '#665881', '#565f71', '#a3bcec', '#d0bfee'];
+const siteCategoryLegendPlugin = {
+  id: 'siteCategoryLegend',
+  afterUpdate(chart) {
+    const legend = document.getElementById('siteCategoryLegend');
+    if (!legend) return;
+
+    const items = chart.options.plugins.legend.labels.generateLabels(chart);
+    legend.innerHTML = items.map(item => `
+      <span class="sw-chart-legend-item">
+        <span class="sw-chart-legend-swatch" style="background:${item.fillStyle}"></span>
+        <span>${item.text}</span>
+      </span>
+    `).join('');
+  }
+};
 new Chart(document.getElementById('siteCategoryChart'), {
   type: 'pie',
   data: {
     labels: <?= json_encode(array_keys($siteCategoryCounts)) ?>,
     datasets: [{ data: <?= json_encode(array_values($siteCategoryCounts)) ?>, backgroundColor: siteChartColors }]
+  },
+  plugins: [siteCategoryLegendPlugin],
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: { padding: { top: 4 } },
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
   }
 });
 new Chart(document.getElementById('siteFrequencyChart'), {
@@ -119,7 +150,11 @@ new Chart(document.getElementById('siteFrequencyChart'), {
     labels: <?= json_encode(array_keys($siteDateCounts)) ?>,
     datasets: [{ label: 'Posts', data: <?= json_encode(array_values($siteDateCounts)) ?>, borderColor: '#465f8a', backgroundColor: 'rgba(70,95,138,.14)', tension: .35, fill: true }]
   },
-  options: { scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+  }
 });
 </script>
 <?php endif; ?>

@@ -26,6 +26,16 @@ create table contents (
   updated_at timestamptz
 );
 
+create table content_categories (
+  id bigserial primary key,
+  name text not null unique,
+  description text,
+  is_active boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz
+);
+
 create table reports (
   id bigserial primary key,
   content_id bigint not null references contents(id) on delete cascade,
@@ -69,8 +79,19 @@ create table messages (
 );
 
 create index idx_users_role on users(role);
+create index idx_content_categories_active_sort on content_categories(is_active, sort_order, name);
 create index idx_contents_author_id on contents(author_id);
 create index idx_contents_status_created_at on contents(status, created_at desc);
 create index idx_reports_status_created_at on reports(status, created_at desc);
 create index idx_author_requests_status_created_at on author_requests(status, created_at desc);
 create index idx_messages_status_created_at on messages(status, created_at desc);
+
+insert into content_categories (name, sort_order)
+values
+  ('Historical Archives', 10),
+  ('Philosophy', 20),
+  ('Logic & Reason', 30),
+  ('Scientific Method', 40),
+  ('Literature Collections', 50),
+  ('Daily Challenges', 60)
+on conflict (name) do nothing;

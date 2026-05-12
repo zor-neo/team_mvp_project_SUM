@@ -17,6 +17,27 @@ if (!$canOpen) {
 }
 
 $signedUrl = storage_signed_url((string) $content['file_path']);
+$localPath = storage_local_path((string) $content['file_path']);
+if ($localPath !== null) {
+    $filename = basename((string) $content['file_path']);
+    $mime = function_exists('finfo_open') ? 'application/octet-stream' : 'application/octet-stream';
+    if (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $detected = finfo_file($finfo, $localPath);
+        finfo_close($finfo);
+        if (is_string($detected) && $detected !== '') {
+            $mime = $detected;
+        }
+    }
+
+    header('Content-Type: ' . $mime);
+    header('Content-Length: ' . (string) filesize($localPath));
+    header('Content-Disposition: inline; filename="' . str_replace('"', '', $filename) . '"');
+    header('X-Content-Type-Options: nosniff');
+    readfile($localPath);
+    exit;
+}
+
 if (!$signedUrl) {
     flash('The attached file exists in the archive record, but the storage link could not be created.', 'danger');
     redirect_to('content.php?id=' . (int) $content['id']);

@@ -53,6 +53,7 @@ function storage_upload(array $file, int $contentId): ?string
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => file_get_contents($file['tmp_name']),
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTPHEADER => [
                 'Authorization: Bearer ' . $key,
                 'apikey: ' . $key,
@@ -95,9 +96,8 @@ function storage_signed_url(string $storagePath, int $expiresIn = 300): ?string
         return null;
     }
 
-    $localPath = dirname(__DIR__) . '/uploads/' . $storagePath;
-    if (is_file($localPath)) {
-        return url_for('uploads/' . $storagePath);
+    if (storage_local_path($storagePath) !== null) {
+        return null;
     }
 
     $url = rtrim(getenv('SUPABASE_URL') ?: '', '/');
@@ -113,6 +113,7 @@ function storage_signed_url(string $storagePath, int $expiresIn = 300): ?string
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode(['expiresIn' => $expiresIn]),
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 15,
         CURLOPT_HTTPHEADER => [
             'Authorization: Bearer ' . $key,
             'apikey: ' . $key,
@@ -137,4 +138,25 @@ function storage_signed_url(string $storagePath, int $expiresIn = 300): ?string
     }
 
     return $url . $signedUrl;
+}
+
+function storage_local_path(string $storagePath): ?string
+{
+    $storagePath = ltrim(str_replace('\\', '/', $storagePath), '/');
+    if ($storagePath === '' || str_contains($storagePath, '..')) {
+        return null;
+    }
+
+    $root = realpath(dirname(__DIR__) . '/uploads');
+    if ($root === false) {
+        return null;
+    }
+
+    $path = realpath($root . '/' . $storagePath);
+    $rootPrefix = rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    if ($path === false || !str_starts_with($path, $rootPrefix) || !is_file($path)) {
+        return null;
+    }
+
+    return $path;
 }

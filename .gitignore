@@ -1,0 +1,16 @@
+# Local secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# Runtime/generated files
+**/*.log
+**/uploads/
+
+# Dependency/build folders
+**/node_modules/
+**/vendor/
+
+# OS/editor noise
+**/.DS_Store
+**/Thumbs.db

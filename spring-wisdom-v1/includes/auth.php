@@ -5,10 +5,19 @@ require_once __DIR__ . '/data.php';
 
 function actual_user(): ?array
 {
+    static $actualUser = null;
+    static $loaded = false;
+
+    if ($loaded) {
+        return $actualUser;
+    }
+    $loaded = true;
+
     if (!isset($_SESSION['user_id'])) {
         return null;
     }
-    return find_user_by_id((int) $_SESSION['user_id']);
+    $actualUser = find_user_by_id((int) $_SESSION['user_id']);
+    return $actualUser;
 }
 
 function actual_role(): ?string

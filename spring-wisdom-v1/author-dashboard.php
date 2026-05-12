@@ -49,6 +49,7 @@ if (is_post()) {
 }
 
 $myContents = $user['role'] === 'admin' ? all_contents(true) : contents_for_author((int) $user['id']);
+$activeCategories = all_content_categories();
 $pageTitle = 'My Space';
 $active = 'my-space';
 require __DIR__ . '/includes/header.php';
@@ -75,7 +76,9 @@ require __DIR__ . '/includes/header.php';
                 <div class="col-md-6">
                     <label class="form-label">Category</label>
                     <select class="form-select" name="category" required>
-                        <option>Historical Archives</option><option>Philosophy</option><option>Logic & Reason</option><option>Scientific Method</option><option>Literature Collections</option>
+                        <?php foreach ($activeCategories as $category): ?>
+                            <option value="<?= e($category['name']) ?>"><?= e($category['name']) ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-12"><label class="form-label">Summary</label><input class="form-control" name="summary" required></div>
@@ -118,7 +121,20 @@ require __DIR__ . '/includes/header.php';
                         <div class="modal-header"><h5 class="modal-title">Edit Content</h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button></div>
                         <div class="modal-body row g-3">
                             <div class="col-md-6"><label class="form-label">Title</label><input class="form-control" name="title" value="<?= e($content['title']) ?>" required></div>
-                            <div class="col-md-6"><label class="form-label">Category</label><input class="form-control" name="category" value="<?= e($content['category']) ?>" required></div>
+                            <div class="col-md-6">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="category" required>
+                                    <?php $currentCategoryListed = false; ?>
+                                    <?php foreach ($activeCategories as $category): ?>
+                                        <?php $selected = strcasecmp((string) $content['category'], (string) $category['name']) === 0; ?>
+                                        <?php $currentCategoryListed = $currentCategoryListed || $selected; ?>
+                                        <option value="<?= e($category['name']) ?>" <?= $selected ? 'selected' : '' ?>><?= e($category['name']) ?></option>
+                                    <?php endforeach; ?>
+                                    <?php if (!$currentCategoryListed): ?>
+                                        <option value="<?= e($content['category']) ?>" selected><?= e($content['category']) ?> (legacy)</option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
                             <div class="col-12"><label class="form-label">Summary</label><input class="form-control" name="summary" value="<?= e($content['summary']) ?>" required></div>
                             <div class="col-12"><label class="form-label">Body</label><textarea class="form-control" name="body" rows="6" required><?= e($content['body']) ?></textarea></div>
                         </div>

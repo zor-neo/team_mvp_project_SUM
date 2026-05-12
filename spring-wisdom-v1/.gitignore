@@ -1,4 +1,6 @@
 .env
+.env.*
+!.env.example
 uploads/
-dev-ai-seed.php
 *.log
+dev-ai-seed.php
