@@ -48,7 +48,7 @@ if (is_post()) {
     redirect_to('author-dashboard.php');
 }
 
-$myContents = array_values(array_filter(all_contents(true), fn($c) => (int) $c['author_id'] === (int) $user['id'] || $user['role'] === 'admin'));
+$myContents = $user['role'] === 'admin' ? all_contents(true) : contents_for_author((int) $user['id']);
 $pageTitle = 'My Space';
 $active = 'my-space';
 require __DIR__ . '/includes/header.php';

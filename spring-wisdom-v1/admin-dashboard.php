@@ -2,16 +2,12 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 $counts = dashboard_counts();
-$reports = array_slice(all_reports(), 0, 2);
-$requests = array_slice(array_filter(all_author_requests(), fn($r) => $r['status'] === 'pending'), 0, 3);
-$messages = array_slice(all_messages(), 0, 2);
-$allContents = all_contents(true);
-$publishedContents = array_values(array_filter($allContents, fn($content) => ($content['status'] ?? '') === 'published'));
-$hiddenContents = array_values(array_filter($allContents, fn($content) => ($content['status'] ?? '') === 'hidden'));
-$siteCategoryCounts = content_count_by_category($allContents);
-$siteDateCounts = content_count_by_date($allContents);
-$siteAuthorsWithContent = count(array_unique(array_map(fn($content) => (int) $content['author_id'], $allContents)));
-$siteLatestDate = latest_content_date($allContents);
+$reports = all_reports(2);
+$requests = all_author_requests('pending', 3);
+$messages = all_messages(2);
+$analytics = content_analytics();
+$siteCategoryCounts = $analytics['category_counts'];
+$siteDateCounts = $analytics['date_counts'];
 $pageTitle = 'Admin Dashboard';
 $active = 'admin';
 require __DIR__ . '/includes/header.php';
@@ -43,14 +39,14 @@ require __DIR__ . '/includes/admin-sidebar.php';
                     <span class="badge sw-badge">Admin-wide</span>
                 </div>
                 <div class="row g-3 mb-4">
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Total contents</span><strong class="d-block fs-4"><?= e((string) count($allContents)) ?></strong></div></div>
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Published</span><strong class="d-block fs-4"><?= e((string) count($publishedContents)) ?></strong></div></div>
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Hidden</span><strong class="d-block fs-4"><?= e((string) count($hiddenContents)) ?></strong></div></div>
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Categories</span><strong class="d-block fs-4"><?= e((string) count($siteCategoryCounts)) ?></strong></div></div>
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Authors with content</span><strong class="d-block fs-4"><?= e((string) $siteAuthorsWithContent) ?></strong></div></div>
-                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Latest content</span><strong class="d-block fs-5"><?= e($siteLatestDate) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Total contents</span><strong class="d-block fs-4"><?= e((string) $analytics['total']) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Published</span><strong class="d-block fs-4"><?= e((string) $analytics['published']) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Hidden</span><strong class="d-block fs-4"><?= e((string) $analytics['hidden']) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Categories</span><strong class="d-block fs-4"><?= e((string) $analytics['categories_count']) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Authors with content</span><strong class="d-block fs-4"><?= e((string) $analytics['authors_with_content']) ?></strong></div></div>
+                    <div class="col-md-4"><div class="border rounded p-3 h-100"><span class="small text-uppercase sw-muted">Latest content</span><strong class="d-block fs-5"><?= e((string) $analytics['latest_date']) ?></strong></div></div>
                 </div>
-                <?php if (count($allContents) > 0): ?>
+                <?php if ($analytics['total'] > 0): ?>
                     <div class="row g-4">
                         <div class="col-lg-5">
                             <h3 class="h6 fw-bold">Categories Pie Chart</h3>
@@ -106,7 +102,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
         </div>
     </div>
 </section>
-<?php if (count($allContents) > 0): ?>
+<?php if ($analytics['total'] > 0): ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 const siteChartColors = ['#465f8a', '#b1cafb', '#665881', '#565f71', '#a3bcec', '#d0bfee'];

@@ -8,29 +8,14 @@ $sort = ($_GET['sort'] ?? 'newest') === 'oldest' ? 'oldest' : 'newest';
 $currentPage = max(1, (int) ($_GET['page'] ?? 1));
 $perPage = 12;
 
-$allContents = all_contents();
-$categories = array_values(array_unique(array_map(fn($content) => $content['category'], $allContents)));
-sort($categories);
+$categories = content_categories();
 $authors = all_users('author');
 
-$filteredContents = array_values(array_filter($allContents, function ($content) use ($category, $authorId) {
-    if ($category !== '' && strcasecmp((string) $content['category'], $category) !== 0) {
-        return false;
-    }
-    if ($authorId > 0 && (int) $content['author_id'] !== $authorId) {
-        return false;
-    }
-    return true;
-}));
-usort($filteredContents, function ($a, $b) use ($sort) {
-    $aDate = strtotime((string) ($a['created_at'] ?? '')) ?: 0;
-    $bDate = strtotime((string) ($b['created_at'] ?? '')) ?: 0;
-    return $sort === 'oldest' ? $aDate <=> $bDate : $bDate <=> $aDate;
-});
-$totalPages = max(1, (int) ceil(count($filteredContents) / $perPage));
+$totalContents = count_filtered_contents($category, $authorId);
+$totalPages = max(1, (int) ceil($totalContents / $perPage));
 $currentPage = min($currentPage, $totalPages);
 $pageOffset = ($currentPage - 1) * $perPage;
-$pagedContents = array_slice($filteredContents, $pageOffset, $perPage);
+$pagedContents = filtered_contents($category, $authorId, $sort, $perPage, $pageOffset);
 $filterQuery = array_filter(['category' => $category, 'author_id' => $authorId > 0 ? $authorId : '', 'sort' => $sort !== 'newest' ? $sort : ''], fn($value) => $value !== '' && $value !== null);
 $pageQuerySuffix = $filterQuery ? '&' . http_build_query($filterQuery) : '';
 $archiveReturnQuery = array_filter(['category' => $category, 'author_id' => $authorId > 0 ? $authorId : '', 'sort' => $sort !== 'newest' ? $sort : '', 'page' => $currentPage > 1 ? $currentPage : ''], fn($value) => $value !== '' && $value !== null);
@@ -86,7 +71,7 @@ require __DIR__ . '/includes/header.php';
         </form>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 fw-bold mb-0"><?= e((string) count($filteredContents)) ?> archive item<?= count($filteredContents) === 1 ? '' : 's' ?></h2>
+            <h2 class="h5 fw-bold mb-0"><?= e((string) $totalContents) ?> archive item<?= $totalContents === 1 ? '' : 's' ?></h2>
             <?php if ($category !== '' || $authorId > 0 || $sort !== 'newest'): ?>
                 <span class="small sw-muted"><?= $sort === 'oldest' ? 'Oldest first' : 'Filtered results' ?></span>
             <?php endif; ?>

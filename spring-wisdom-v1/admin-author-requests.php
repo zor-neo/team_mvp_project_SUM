@@ -12,7 +12,12 @@ if (is_post()) {
     }
     redirect_to('admin-author-requests.php');
 }
-$requests = all_author_requests();
+$currentPage = max(1, (int) ($_GET['page'] ?? 1));
+$perPage = 10;
+$totalRequests = count_author_requests();
+$totalPages = max(1, (int) ceil($totalRequests / $perPage));
+$currentPage = min($currentPage, $totalPages);
+$requests = all_author_requests(null, $perPage, ($currentPage - 1) * $perPage);
 $pageTitle = 'Author Requests';
 $active = 'admin-requests';
 require __DIR__ . '/includes/header.php';
@@ -20,6 +25,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
 ?>
 <section class="container-lg py-5">
     <h1 class="display-6 fw-bold mb-4">Author Request Assessment</h1>
+    <p class="small sw-muted"><?= e((string) $totalRequests) ?> total request<?= $totalRequests === 1 ? '' : 's' ?></p>
     <div class="row g-4">
         <?php foreach ($requests as $request): ?>
             <div class="col-md-6">
@@ -39,6 +45,17 @@ require __DIR__ . '/includes/admin-sidebar.php';
             </div>
         <?php endforeach; ?>
     </div>
+    <?php if ($totalPages > 1): ?>
+        <nav class="mt-5" aria-label="Author request pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?= $currentPage === 1 ? 'disabled' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-author-requests.php?page=' . max(1, $currentPage - 1))) ?>">Previous</a></li>
+                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                    <li class="page-item <?= $page === $currentPage ? 'active' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-author-requests.php?page=' . $page)) ?>"><?= e((string) $page) ?></a></li>
+                <?php endfor; ?>
+                <li class="page-item <?= $currentPage === $totalPages ? 'disabled' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-author-requests.php?page=' . min($totalPages, $currentPage + 1))) ?>">Next</a></li>
+            </ul>
+        </nav>
+    <?php endif; ?>
 </section>
 <?php require __DIR__ . '/includes/admin-sidebar-end.php'; ?>
 <?php require __DIR__ . '/includes/footer.php'; ?>

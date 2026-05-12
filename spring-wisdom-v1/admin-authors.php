@@ -8,7 +8,7 @@ if (is_post()) {
     redirect_to('admin-authors.php');
 }
 $authors = all_users('author');
-$contents = all_contents(true);
+$contentCounts = author_content_counts();
 $pageTitle = 'Author Accounts';
 $active = 'admin-authors';
 require __DIR__ . '/includes/header.php';
@@ -18,7 +18,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
     <h1 class="display-6 fw-bold mb-4">Author Accounts</h1>
     <div class="row g-4">
         <?php foreach ($authors as $author): ?>
-            <?php $count = count(array_filter($contents, fn($c) => (int)$c['author_id'] === (int)$author['id'])); ?>
+            <?php $count = $contentCounts[(int) $author['id']] ?? 0; ?>
             <div class="col-md-6 col-lg-4">
                 <div class="sw-panel h-100">
                     <h2 class="h5"><?= e($author['name']) ?></h2>

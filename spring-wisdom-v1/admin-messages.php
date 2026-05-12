@@ -24,7 +24,12 @@ if (is_post()) {
     redirect_to('admin-messages.php');
 }
 
-$messages = all_messages();
+$currentPage = max(1, (int) ($_GET['page'] ?? 1));
+$perPage = 10;
+$totalMessages = count_messages();
+$totalPages = max(1, (int) ceil($totalMessages / $perPage));
+$currentPage = min($currentPage, $totalPages);
+$messages = all_messages($perPage, ($currentPage - 1) * $perPage);
 $pageTitle = 'Messages';
 $active = 'admin-messages';
 require __DIR__ . '/includes/header.php';
@@ -36,7 +41,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
             <h1 class="display-6 fw-bold mb-1">Reports and Messages</h1>
             <p class="sw-muted mb-0">Review user/admin messages, save replies, and resolve moderation communication.</p>
         </div>
-        <span class="badge sw-badge"><?= e((string) count($messages)) ?> total</span>
+        <span class="badge sw-badge"><?= e((string) $totalMessages) ?> total</span>
     </div>
     <div class="sw-panel">
         <?php if (!$messages): ?>
@@ -103,6 +108,17 @@ require __DIR__ . '/includes/admin-sidebar.php';
             </div>
         <?php endforeach; ?>
     </div>
+    <?php if ($totalPages > 1): ?>
+        <nav class="mt-4" aria-label="Message pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?= $currentPage === 1 ? 'disabled' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-messages.php?page=' . max(1, $currentPage - 1))) ?>">Previous</a></li>
+                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                    <li class="page-item <?= $page === $currentPage ? 'active' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-messages.php?page=' . $page)) ?>"><?= e((string) $page) ?></a></li>
+                <?php endfor; ?>
+                <li class="page-item <?= $currentPage === $totalPages ? 'disabled' : '' ?>"><a class="page-link" href="<?= e(url_for('admin-messages.php?page=' . min($totalPages, $currentPage + 1))) ?>">Next</a></li>
+            </ul>
+        </nav>
+    <?php endif; ?>
 </section>
 <?php require __DIR__ . '/includes/admin-sidebar-end.php'; ?>
 <?php require __DIR__ . '/includes/footer.php'; ?>

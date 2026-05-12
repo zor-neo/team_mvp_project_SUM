@@ -5,19 +5,11 @@ require_login();
 $selectedCategory = trim($_GET['category'] ?? '');
 $sort = ($_GET['sort'] ?? 'newest') === 'oldest' ? 'oldest' : 'newest';
 $perPage = 6;
-$contents = all_contents();
-$categories = ['Philosophy', 'Logic & Reason', 'Scientific Method', 'Historical Archives', 'Daily Challenges'];
-if ($selectedCategory !== '') {
-    $contents = array_values(array_filter($contents, fn($content) => strcasecmp($content['category'], $selectedCategory) === 0));
-}
-usort($contents, function ($a, $b) use ($sort) {
-    $aDate = strtotime((string) ($a['created_at'] ?? '')) ?: 0;
-    $bDate = strtotime((string) ($b['created_at'] ?? '')) ?: 0;
-    return $sort === 'oldest' ? $aDate <=> $bDate : $bDate <=> $aDate;
-});
+$contents = filtered_contents($selectedCategory, 0, $sort, $perPage + 1);
+$totalMatches = count_filtered_contents($selectedCategory);
+$categories = content_categories();
 $featured = $contents[0] ?? null;
-$curatedContents = $featured ? array_values(array_filter($contents, fn($content) => (int) $content['id'] !== (int) $featured['id'])) : $contents;
-$pagedContents = array_slice($curatedContents, 0, $perPage);
+$pagedContents = array_slice($contents, $featured ? 1 : 0, $perPage);
 $currentBrowseQuery = array_filter(['category' => $selectedCategory, 'sort' => $sort !== 'newest' ? $sort : ''], fn($value) => $value !== '' && $value !== null);
 $browseReturn = 'browse.php' . ($currentBrowseQuery ? '?' . http_build_query($currentBrowseQuery) : '');
 $pageTitle = 'Browse';
@@ -81,7 +73,7 @@ require __DIR__ . '/includes/header.php';
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="h4 fw-bold mb-1">Curated Selections</h2>
-            <p class="small sw-muted mb-0">Showing selected highlights from <?= e((string) count($contents)) ?> matching resource<?= count($contents) === 1 ? '' : 's' ?></p>
+            <p class="small sw-muted mb-0">Showing selected highlights from <?= e((string) $totalMatches) ?> matching resource<?= $totalMatches === 1 ? '' : 's' ?></p>
         </div>
         <a class="sw-underlined-link fw-semibold" href="<?= e(url_for('archives.php')) ?>">View all archives</a>
     </div>

@@ -63,19 +63,23 @@ The goal of Spring Wisdom V1 is to demonstrate a complete learning portal with:
 
 For this scope, simple PHP server-rendering is easier to maintain and explain than a larger frontend framework. The current design favors clarity, correctness, and demonstration value over advanced performance engineering.
 
-## Planned Student-Level Optimizations
+## Implemented Student-Level Optimizations
 
 These improvements keep the current PHP stack while making the system more scalable:
 
-1. Replace PHP-side counts with SQL count queries.
-2. Add direct database queries for single-record lookups.
-3. Add pagination to archive, users, reports, and messages pages.
-4. Add SQL `limit` clauses for dashboard previews and home feed previews.
-5. Cache dashboard counts and recent feeds for 30-60 seconds.
-6. Keep using Supabase indexes for frequently filtered columns.
-7. Serve frontend assets locally where possible.
+1. Dashboard totals use SQL count queries instead of loading full tables.
+2. Single content lookup queries fetch by `id` directly.
+3. Archive browsing uses SQL filtering, sorting, `limit`, and `offset`.
+4. Admin users, reports, author requests, messages, updates, and archive lists use pagination.
+5. Dashboard preview sections use limited queries instead of loading all rows.
+6. Dashboard counts and content analytics use short session caching.
+7. Author content counts are grouped in SQL instead of counted in PHP loops.
 
 These are realistic optimizations for a student project because they improve performance without requiring a full rewrite.
+
+## Deferred Optimization
+
+Serving all frontend assets locally is still optional and has not been applied in V1. Bootstrap, Bootstrap Icons, and Google Fonts remain simple external dependencies so the local setup stays easy to run and explain.
 
 ## Possible Future Upgrade Path
 

@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
-$feeds = array_slice(all_feeds(), 0, 3);
+$feeds = all_feeds(3);
 $pageTitle = 'Home';
 $active = 'home';
 require __DIR__ . '/includes/header.php';
@@ -44,4 +44,3 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
-
