@@ -8,6 +8,7 @@
 **/uploads/
 legacy-ui-docs/
 legacy-frontend/
+SW frontend/
 
 # Dependency/build folders
 **/node_modules/
