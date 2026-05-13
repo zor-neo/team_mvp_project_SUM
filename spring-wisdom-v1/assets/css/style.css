@@ -67,6 +67,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 .navbar .nav-link.active, .navbar .nav-link:hover { color: var(--sw-primary); }
 
+@media (max-width: 991.98px) {
+  .sw-navbar .navbar-collapse {
+    text-align: right;
+  }
+
+  .sw-navbar .navbar-nav {
+    align-items: flex-end;
+    margin-left: auto;
+  }
+
+  .sw-navbar .navbar-collapse > .d-flex {
+    justify-content: flex-end;
+    align-items: flex-end !important;
+    flex-wrap: wrap;
+  }
+
+  .sw-navbar .dropdown {
+    align-self: flex-end;
+  }
+
+  .sw-navbar .dropdown-menu {
+    max-width: calc(100vw - 2rem);
+    margin-left: auto;
+    text-align: left;
+  }
+}
+
 .sw-hero { padding: 2.7rem 0 2.35rem; }
 .sw-search-compact,
 .sw-hub-controls {

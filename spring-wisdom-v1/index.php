@@ -43,7 +43,7 @@ require __DIR__ . '/includes/header.php';
 <section class="sw-hero">
     <div class="container-lg">
         <div class="row align-items-center g-5">
-            <div class="col-lg-7">
+            <div class="col-lg-7 order-2 order-lg-1">
                 <span class="badge sw-badge mb-3">Learning Hub</span>
                 <h1 class="display-4 fw-bold mb-4">Knowledge is the only way out of this <span class="text-primary">Dark Age</span>.</h1>
                 <p class="lead sw-muted mb-4"><span class="mm-text fw-bold">ဤအမှောင်ခေတ်မှ လွတ်မြောက်ရာ တခုတည်းသောလမ်းစမှာ "ဉာဏ်ပညာ" သာဖြစ်သည်။</span>
@@ -66,7 +66,7 @@ require __DIR__ . '/includes/header.php';
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5 order-1 order-lg-2">
                 <div class="sw-panel">
                     <ul class="nav nav-tabs mb-4" id="authTabs" role="tablist">
                         <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#loginTab" type="button">Login</button></li>

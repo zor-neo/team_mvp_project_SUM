@@ -5,6 +5,9 @@
 !**/.env.example
 **/node_modules
 **/vendor
+!spring-wisdom-v1/assets/vendor
+!spring-wisdom-v1/assets/vendor/chart.umd.min.js
+!spring-wisdom-v1/assets/vendor/**
 **/uploads
 **/*.log
 **/.DS_Store

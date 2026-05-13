@@ -6,10 +6,15 @@
 # Runtime/generated files
 **/*.log
 **/uploads/
+legacy-ui-docs/
+legacy-frontend/
 
 # Dependency/build folders
 **/node_modules/
 **/vendor/
+!spring-wisdom-v1/assets/vendor/
+!spring-wisdom-v1/assets/vendor/chart.umd.min.js
+!spring-wisdom-v1/assets/vendor/**
 
 # OS/editor noise
 **/.DS_Store
