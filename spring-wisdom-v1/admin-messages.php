@@ -49,12 +49,14 @@ require __DIR__ . '/includes/admin-sidebar.php';
         <?php endif; ?>
         <?php foreach ($messages as $message): ?>
             <div class="sw-message-card <?= $message['status'] === 'new' ? 'has-ribbon' : '' ?> mb-3">
-                <?php if ($message['status'] === 'new'): ?>
-                    <span class="sw-message-ribbon">New message</span>
-                <?php endif; ?>
-                <div class="d-flex flex-column gap-2">
-                    <div class="pe-md-5">
-                        <h2 class="h6 fw-bold mb-1"><?= e($message['subject']) ?></h2>
+                <div class="d-flex flex-column flex-md-row justify-content-between gap-2 align-items-md-center">
+                    <div class="pe-md-3">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                            <?php if ($message['status'] === 'new'): ?>
+                                <span class="sw-message-ribbon">New</span>
+                            <?php endif; ?>
+                            <h2 class="h6 fw-bold mb-0"><?= e($message['subject']) ?></h2>
+                        </div>
                         <p class="small sw-muted mb-1">From <?= e($message['sender_name']) ?> to <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                         <?php if (!empty($message['content_title'])): ?>
                             <p class="small sw-muted mb-0"><?= e($message['content_title']) ?></p>

@@ -48,7 +48,7 @@ Seed an admin manually after creating the schema:
 ```sql
 insert into users (name, email, password_hash, role)
 values (
-  'Admin Scholar',
+  'Admin Guru',
   'admin@spring.test',
   '$2y$12$3GVSfzhRK6HL8.3tKpnsguwBxr2cUSl5VBUcnBWkyKhAgIyG8ucEi',
   'admin'

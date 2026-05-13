@@ -219,37 +219,35 @@ h1, h2, h3, h4, h5, h6 {
 .sw-message-card {
   background: var(--sw-surface);
   border: 1px solid var(--sw-border);
-  border-radius: 10px;
-  overflow: hidden;
-  padding: 0.85rem 0.95rem;
-  position: relative;
+  border-radius: 8px;
+  padding: 0.72rem 0.85rem;
 }
 
 .sw-message-card.has-ribbon {
-  padding-top: 1.75rem;
+  border-color: rgba(70, 95, 138, 0.35);
 }
 
 .sw-message-ribbon {
-  background: var(--sw-primary);
-  color: #fffdf7;
+  align-items: center;
+  background: var(--sw-surface-soft);
+  border: 1px solid rgba(70, 95, 138, 0.2);
+  border-radius: 999px;
+  color: var(--sw-primary);
+  display: inline-flex;
   font-size: 0.68rem;
   font-weight: 800;
-  left: -1px;
-  letter-spacing: 0.02em;
+  gap: 0.35rem;
   line-height: 1;
-  padding: 0.38rem 0.72rem;
-  position: absolute;
+  padding: 0.28rem 0.55rem;
   text-transform: uppercase;
-  top: -1px;
 }
 
-.sw-message-ribbon::after {
-  border-left: 10px solid var(--sw-primary);
-  border-top: 21px solid transparent;
+.sw-message-ribbon::before {
+  background: var(--sw-primary);
+  border-radius: 999px;
   content: "";
-  position: absolute;
-  right: -10px;
-  top: 0;
+  height: 0.42rem;
+  width: 0.42rem;
 }
 
 .sw-message-view {

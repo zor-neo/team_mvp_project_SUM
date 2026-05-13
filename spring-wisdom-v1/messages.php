@@ -78,12 +78,14 @@ require __DIR__ . '/includes/header.php';
                     <?php endif; ?>
                     <?php foreach ($inbox as $message): ?>
                         <article class="sw-message-card <?= $message['status'] === 'new' ? 'has-ribbon' : '' ?> mb-3">
-                            <?php if ($message['status'] === 'new'): ?>
-                                <span class="sw-message-ribbon">New message</span>
-                            <?php endif; ?>
                             <div class="d-flex flex-column gap-1">
                                 <div>
-                                    <h3 class="h6 fw-bold mb-1"><?= e($message['subject']) ?></h3>
+                                    <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                        <?php if ($message['status'] === 'new'): ?>
+                                            <span class="sw-message-ribbon">New</span>
+                                        <?php endif; ?>
+                                        <h3 class="h6 fw-bold mb-0"><?= e($message['subject']) ?></h3>
+                                    </div>
                                     <p class="small sw-muted mb-2">From <?= e($message['sender_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                                 </div>
                             </div>

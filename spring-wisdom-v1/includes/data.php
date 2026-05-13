@@ -11,7 +11,7 @@ function seed_demo_data(): void
     }
 
     $_SESSION['users'] = [
-        ['id' => 1, 'name' => 'Admin Scholar', 'email' => 'admin@spring.test', 'password_hash' => password_hash('password', PASSWORD_DEFAULT), 'role' => 'admin', 'profile_pic_path' => null, 'phone' => '', 'institution' => 'Spring Wisdom', 'bio' => 'Platform administrator.', 'settings_theme' => 'light', 'email_notifications' => true],
+        ['id' => 1, 'name' => 'Admin Guru', 'email' => 'admin@spring.test', 'password_hash' => password_hash('password', PASSWORD_DEFAULT), 'role' => 'admin', 'profile_pic_path' => null, 'phone' => '', 'institution' => 'Spring Wisdom', 'bio' => 'Platform administrator.', 'settings_theme' => 'light', 'email_notifications' => true],
         ['id' => 2, 'name' => 'Maya Reader', 'email' => 'user@spring.test', 'password_hash' => password_hash('password', PASSWORD_DEFAULT), 'role' => 'user', 'profile_pic_path' => null, 'phone' => '', 'institution' => 'Student', 'bio' => 'Interested in careful reading and structured knowledge.', 'settings_theme' => 'light', 'email_notifications' => true],
         ['id' => 3, 'name' => 'Jon Author', 'email' => 'author@spring.test', 'password_hash' => password_hash('password', PASSWORD_DEFAULT), 'role' => 'author', 'profile_pic_path' => null, 'phone' => '', 'institution' => 'Archive Faculty', 'bio' => 'Writes short educational readings.', 'settings_theme' => 'light', 'email_notifications' => true],
         ['id' => 4, 'name' => 'Nora Candidate', 'email' => 'nora@spring.test', 'password_hash' => password_hash('password', PASSWORD_DEFAULT), 'role' => 'user', 'profile_pic_path' => null, 'phone' => '', 'institution' => '', 'bio' => '', 'settings_theme' => 'light', 'email_notifications' => true],
@@ -51,8 +51,8 @@ function seed_demo_data(): void
     );
 
     $_SESSION['messages'] = [
-        ['id' => 1, 'sender_id' => 2, 'receiver_id' => 1, 'report_id' => null, 'content_id' => null, 'sender_name' => 'Maya Reader', 'receiver_name' => 'Admin Scholar', 'subject' => 'Question about saved readings', 'body' => 'Can bookmarked readings be exported later?', 'status' => 'new', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-09'],
-        ['id' => 2, 'sender_id' => 3, 'receiver_id' => 1, 'report_id' => 1, 'content_id' => 2, 'sender_name' => 'Jon Author', 'receiver_name' => 'Admin Scholar', 'subject' => 'File review request', 'body' => 'Please review the attached source file for the Stoic reading.', 'status' => 'read', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-10'],
+        ['id' => 1, 'sender_id' => 2, 'receiver_id' => 1, 'report_id' => null, 'content_id' => null, 'sender_name' => 'Maya Reader', 'receiver_name' => 'Admin Guru', 'subject' => 'Question about saved readings', 'body' => 'Can bookmarked readings be exported later?', 'status' => 'new', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-09'],
+        ['id' => 2, 'sender_id' => 3, 'receiver_id' => 1, 'report_id' => 1, 'content_id' => 2, 'sender_name' => 'Jon Author', 'receiver_name' => 'Admin Guru', 'subject' => 'File review request', 'body' => 'Please review the attached source file for the Stoic reading.', 'status' => 'read', 'reply_text' => '', 'replied_at' => null, 'created_at' => '2026-05-10'],
     ];
 
     $_SESSION['demo_seeded'] = true;
