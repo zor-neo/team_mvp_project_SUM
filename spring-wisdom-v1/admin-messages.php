@@ -2,6 +2,17 @@
 require_once __DIR__ . '/includes/auth.php';
 require_role(['admin']);
 
+function admin_message_participant_link(array $message, string $side): string
+{
+    $label = message_participant_label($message, $side);
+    $id = (int) ($message[$side . '_id'] ?? 0);
+    if ($id <= 0 || $label === 'Admin') {
+        return e($label);
+    }
+    $href = url_for('admin-users.php?user_id=' . $id . '#user-' . $id);
+    return '<a class="sw-underlined-link" href="' . e($href) . '">' . e($label) . '</a>';
+}
+
 if (is_post()) {
     require_csrf();
     $action = $_POST['action'] ?? '';
@@ -48,6 +59,11 @@ require __DIR__ . '/includes/admin-sidebar.php';
             <p class="sw-muted mb-0">No messages yet.</p>
         <?php endif; ?>
         <?php foreach ($messages as $message): ?>
+            <?php
+                $senderLabel = admin_message_participant_link($message, 'sender');
+                $receiverLabel = admin_message_participant_link($message, 'receiver');
+                $canAdminReply = empty($message['reply_text']) && message_participant_label($message, 'receiver') === 'Admin';
+            ?>
             <div class="sw-message-card <?= $message['status'] === 'new' ? 'has-ribbon' : '' ?> mb-3">
                 <div class="d-flex flex-column flex-md-row justify-content-between gap-2 align-items-md-center">
                     <div class="pe-md-3">
@@ -57,7 +73,7 @@ require __DIR__ . '/includes/admin-sidebar.php';
                             <?php endif; ?>
                             <h2 class="h6 fw-bold mb-0"><?= e($message['subject']) ?></h2>
                         </div>
-                        <p class="small sw-muted mb-1">From <?= e($message['sender_name']) ?> to <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
+                        <p class="small sw-muted mb-1"><?= $senderLabel ?> sent a message to <?= $receiverLabel ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                         <?php if (!empty($message['content_title'])): ?>
                             <p class="small sw-muted mb-0"><?= e($message['content_title']) ?></p>
                         <?php endif; ?>
@@ -87,14 +103,17 @@ require __DIR__ . '/includes/admin-sidebar.php';
                                     <strong>Saved reply</strong>
                                     <p class="mb-0 mt-2"><?= nl2br(e($message['reply_text'])) ?></p>
                                 </div>
+                            <?php elseif ($canAdminReply): ?>
+                                <form id="replyForm<?= e((string) $message['id']) ?>" method="post">
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="action" value="reply">
+                                    <input type="hidden" name="message_id" value="<?= e((string) $message['id']) ?>">
+                                    <label class="form-label">Reply / resolution note</label>
+                                    <textarea class="form-control" name="reply_text" rows="4" required></textarea>
+                                </form>
+                            <?php else: ?>
+                                <p class="small sw-muted mb-0">Waiting for the recipient to reply.</p>
                             <?php endif; ?>
-                            <form id="replyForm<?= e((string) $message['id']) ?>" method="post">
-                                <?= csrf_field() ?>
-                                <input type="hidden" name="action" value="reply">
-                                <input type="hidden" name="message_id" value="<?= e((string) $message['id']) ?>">
-                                <label class="form-label">Reply / resolution note</label>
-                                <textarea class="form-control" name="reply_text" rows="4" required></textarea>
-                            </form>
                         </div>
                         <div class="modal-footer">
                             <form method="post" class="me-auto d-flex gap-2">
@@ -103,7 +122,9 @@ require __DIR__ . '/includes/admin-sidebar.php';
                                 <button class="btn btn-outline-sw" name="action" value="mark_read">Mark Read</button>
                                 <button class="btn btn-outline-sw" name="action" value="resolve">Resolve</button>
                             </form>
-                            <button class="btn btn-sw-primary" form="replyForm<?= e((string) $message['id']) ?>">Save Reply</button>
+                            <?php if ($canAdminReply): ?>
+                                <button class="btn btn-sw-primary" form="replyForm<?= e((string) $message['id']) ?>">Save Reply</button>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

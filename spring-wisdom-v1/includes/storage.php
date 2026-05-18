@@ -129,15 +129,18 @@ function storage_signed_url(string $storagePath, int $expiresIn = 300): ?string
     }
 
     $payload = json_decode($response, true);
-    $signedUrl = is_array($payload) ? (string) ($payload['signedURL'] ?? '') : '';
+    $signedUrl = is_array($payload) ? (string) ($payload['signedURL'] ?? $payload['signedUrl'] ?? '') : '';
     if ($signedUrl === '') {
         return null;
     }
     if (str_starts_with($signedUrl, 'http://') || str_starts_with($signedUrl, 'https://')) {
         return $signedUrl;
     }
+    if (str_starts_with($signedUrl, '/storage/v1/')) {
+        return $url . $signedUrl;
+    }
 
-    return $url . $signedUrl;
+    return $url . '/storage/v1/' . ltrim($signedUrl, '/');
 }
 
 function storage_local_path(string $storagePath): ?string

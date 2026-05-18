@@ -9,16 +9,29 @@ if (!$user) {
 
 if (is_post()) {
     require_csrf();
-    $subject = trim($_POST['subject'] ?? '');
-    $body = trim($_POST['body'] ?? '');
-    $admin = first_admin_user();
-    if (!$admin) {
-        flash('No admin account is available to receive messages.', 'danger');
-    } elseif ($subject === '' || $body === '') {
-        flash('Subject and message are required.', 'danger');
+    $action = $_POST['action'] ?? 'send';
+    if ($action === 'reply') {
+        $messageId = (int) ($_POST['message_id'] ?? 0);
+        $reply = trim($_POST['reply_text'] ?? '');
+        if ($reply === '') {
+            flash('Reply text is required.', 'danger');
+        } elseif (reply_to_received_message($messageId, (int) $user['id'], $reply)) {
+            flash('Reply saved on the original message.');
+        } else {
+            flash('That message could not be replied to.', 'danger');
+        }
     } else {
-        create_message((int) $user['id'], (int) $admin['id'], $subject, $body);
-        flash('Message sent to admin.');
+        $subject = trim($_POST['subject'] ?? '');
+        $body = trim($_POST['body'] ?? '');
+        $admin = first_admin_user();
+        if (!$admin) {
+            flash('No admin account is available to receive messages.', 'danger');
+        } elseif ($subject === '' || $body === '') {
+            flash('Subject and message are required.', 'danger');
+        } else {
+            create_message((int) $user['id'], (int) $admin['id'], $subject, $body);
+            flash('Message sent to admin.');
+        }
     }
     redirect_to('messages.php');
 }
@@ -26,6 +39,7 @@ if (is_post()) {
 $messages = messages_for_user((int) $user['id']);
 $inbox = array_values(array_filter($messages, fn($message) => (int) ($message['receiver_id'] ?? 0) === (int) $user['id']));
 $sent = array_values(array_filter($messages, fn($message) => (int) $message['sender_id'] === (int) $user['id']));
+$userId = (int) $user['id'];
 
 $pageTitle = 'Messages';
 $active = 'messages';
@@ -54,6 +68,7 @@ require __DIR__ . '/includes/header.php';
                     <h2 class="h4 fw-bold mb-3">Contact Admin</h2>
                     <form method="post" class="needs-validation" novalidate>
                         <?= csrf_field() ?>
+                        <input type="hidden" name="action" value="send">
                         <div class="mb-3">
                             <label class="form-label">Subject</label>
                             <input class="form-control" name="subject" maxlength="160" required placeholder="Short message subject">
@@ -77,6 +92,10 @@ require __DIR__ . '/includes/header.php';
                         <p class="sw-muted mb-0">No received messages yet.</p>
                     <?php endif; ?>
                     <?php foreach ($inbox as $message): ?>
+                        <?php
+                            $senderLabel = message_participant_label($message, 'sender', $userId);
+                            $receiverLabel = message_participant_label($message, 'receiver', $userId);
+                        ?>
                         <article class="sw-message-card <?= $message['status'] === 'new' ? 'has-ribbon' : '' ?> mb-3">
                             <div class="d-flex flex-column gap-1">
                                 <div>
@@ -86,15 +105,26 @@ require __DIR__ . '/includes/header.php';
                                         <?php endif; ?>
                                         <h3 class="h6 fw-bold mb-0"><?= e($message['subject']) ?></h3>
                                     </div>
-                                    <p class="small sw-muted mb-2">From <?= e($message['sender_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
+                                    <p class="small sw-muted mb-2"><?= e($senderLabel) ?> sent a message to <?= e($receiverLabel) ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                                 </div>
                             </div>
                             <p class="small mb-0"><?= nl2br(e($message['body'])) ?></p>
                             <?php if (!empty($message['reply_text'])): ?>
                                 <div class="border rounded-3 p-2 mt-2 bg-white">
-                                    <strong>Reply / resolution</strong>
+                                    <strong>Your reply</strong>
                                     <p class="small mb-0 mt-1"><?= nl2br(e($message['reply_text'])) ?></p>
                                 </div>
+                            <?php else: ?>
+                                <form method="post" class="border rounded-3 p-2 mt-3 bg-white needs-validation" novalidate>
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="action" value="reply">
+                                    <input type="hidden" name="message_id" value="<?= e((string) $message['id']) ?>">
+                                    <label class="form-label small fw-semibold">Reply to this message</label>
+                                    <textarea class="form-control form-control-sm" name="reply_text" rows="3" required placeholder="Write a short reply."></textarea>
+                                    <div class="text-end mt-2">
+                                        <button class="btn btn-sm btn-sw-primary">Send Reply</button>
+                                    </div>
+                                </form>
                             <?php endif; ?>
                         </article>
                     <?php endforeach; ?>
@@ -109,11 +139,15 @@ require __DIR__ . '/includes/header.php';
                         <p class="sw-muted mb-0">No sent messages yet.</p>
                     <?php endif; ?>
                     <?php foreach ($sent as $message): ?>
+                        <?php
+                            $senderLabel = message_participant_label($message, 'sender', $userId);
+                            $receiverLabel = message_participant_label($message, 'receiver', $userId);
+                        ?>
                         <article class="sw-message-card mb-3">
                             <div class="d-flex flex-column gap-1">
                                 <div>
                                     <h3 class="h6 fw-bold mb-1"><?= e($message['subject']) ?></h3>
-                                    <p class="small sw-muted mb-2">To <?= e($message['receiver_name'] ?? 'Admin') ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
+                                    <p class="small sw-muted mb-2"><?= e($senderLabel) ?> sent a message to <?= e($receiverLabel) ?> - <?= e(friendly_time((string) $message['created_at'])) ?></p>
                                 </div>
                             </div>
                             <p class="small mb-2"><?= nl2br(e($message['body'])) ?></p>

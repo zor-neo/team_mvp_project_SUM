@@ -92,7 +92,7 @@ Generated items are published directly into the archive under the selected autho
 - Admins can promote/demote users and approve author requests.
 - Authors can create, edit, and delete content.
 - Readers can report content only with both a category and a typed reason.
-- Uploaded source files are stored for admin review and are not exposed in reader pages.
+- Uploaded source files attached to published content can be opened by signed-in readers, admins, and the owning author.
 - Every signed-in page shows the account avatar dropdown.
 - If a user has no profile photo, the navbar uses `assets/images/default-avatar.svg`.
 - Account Information lets users update display name, optional profile fields, and profile photo.

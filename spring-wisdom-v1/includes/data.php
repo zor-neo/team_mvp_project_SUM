@@ -626,7 +626,7 @@ function review_author_request(int $id, string $status, int $adminId): void
 function all_messages(?int $limit = null, int $offset = 0): array
 {
     if (using_database()) {
-        return db()->query('select m.*, s.name as sender_name, r.name as receiver_name, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id order by m.created_at desc' . limited_sql($limit, $offset))->fetchAll();
+        return db()->query('select m.*, s.name as sender_name, s.role as sender_role, r.name as receiver_name, r.role as receiver_role, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id order by m.created_at desc' . limited_sql($limit, $offset))->fetchAll();
     }
     $rows = table_rows('messages');
     return $limit ? array_slice($rows, $offset, $limit) : $rows;
@@ -643,12 +643,42 @@ function count_messages(): int
 function messages_for_user(int $userId, ?int $limit = null, int $offset = 0): array
 {
     if (using_database()) {
-        $stmt = db()->prepare('select m.*, s.name as sender_name, r.name as receiver_name, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id where m.sender_id = :id or m.receiver_id = :id order by m.created_at desc' . limited_sql($limit, $offset));
+        $stmt = db()->prepare('select m.*, s.name as sender_name, s.role as sender_role, r.name as receiver_name, r.role as receiver_role, c.title as content_title from messages m join users s on s.id = m.sender_id left join users r on r.id = m.receiver_id left join contents c on c.id = m.content_id where m.sender_id = :id or m.receiver_id = :id order by m.created_at desc' . limited_sql($limit, $offset));
         $stmt->execute(['id' => $userId]);
         return $stmt->fetchAll();
     }
     $rows = array_values(array_filter(table_rows('messages'), fn($message) => (int) $message['sender_id'] === $userId || (int) ($message['receiver_id'] ?? 0) === $userId));
     return $limit ? array_slice($rows, $offset, $limit) : $rows;
+}
+
+function message_participant_label(array $message, string $side, ?int $viewerId = null): string
+{
+    $id = (int) ($message[$side . '_id'] ?? 0);
+    if ($viewerId !== null && $id === $viewerId) {
+        return 'You';
+    }
+    if ($id <= 0 && $side === 'receiver') {
+        return 'Admin';
+    }
+
+    $name = trim((string) ($message[$side . '_name'] ?? ''));
+    $role = trim((string) ($message[$side . '_role'] ?? ''));
+    if ($id > 0 && ($name === '' || $role === '')) {
+        $user = find_user_by_id($id);
+        $name = $name !== '' ? $name : trim((string) ($user['name'] ?? ''));
+        $role = $role !== '' ? $role : trim((string) ($user['role'] ?? ''));
+    }
+
+    if ($role === 'admin') {
+        return 'Admin';
+    }
+    if ($name === '') {
+        $name = 'User';
+    }
+    if (in_array($role, ['user', 'author'], true)) {
+        return $name . ' (' . $role . ')';
+    }
+    return $name;
 }
 
 function count_messages_for_user(int $userId): int
@@ -724,6 +754,33 @@ function reply_to_message(int $id, string $reply): void
         }
     }
     clear_app_cache();
+}
+
+function reply_to_received_message(int $id, int $receiverId, string $reply): bool
+{
+    $reply = text_limit($reply, 2400);
+    if ($reply === '') {
+        return false;
+    }
+    if (using_database()) {
+        $stmt = db()->prepare("update messages set reply_text = :reply, replied_at = now(), status = 'resolved' where id = :id and receiver_id = :receiver_id and coalesce(reply_text, '') = ''");
+        $stmt->execute(['reply' => $reply, 'id' => $id, 'receiver_id' => $receiverId]);
+        $updated = $stmt->rowCount() > 0;
+        if ($updated) {
+            clear_app_cache();
+        }
+        return $updated;
+    }
+    foreach ($_SESSION['messages'] as &$message) {
+        if ((int) $message['id'] === $id && (int) ($message['receiver_id'] ?? 0) === $receiverId && trim((string) ($message['reply_text'] ?? '')) === '') {
+            $message['reply_text'] = $reply;
+            $message['replied_at'] = date('Y-m-d');
+            $message['status'] = 'resolved';
+            clear_app_cache();
+            return true;
+        }
+    }
+    return false;
 }
 
 function dashboard_counts(): array
